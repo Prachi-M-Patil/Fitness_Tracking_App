@@ -27,7 +27,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
     database: process.env.DB_NAME,
     entities: [User_1.User, Profile_1.Profile, Workout_1.Workout, Goal_1.Goal, Activity_1.Activity, Exercise_1.Exercise, Friends_1.Friends, LeaderBoard_1.Leaderboard, Meal_1.Meal, Nutrition_1.Nutrition],
     logging: true,
-    synchronize: process.env.NODE_ENV === "development", // Ensure this is 'false' in production
+    synchronize: true, // Ensure this is 'false' in production  process.env.NODE_ENV === "development",
     options: {
         trustServerCertificate: true,
     },

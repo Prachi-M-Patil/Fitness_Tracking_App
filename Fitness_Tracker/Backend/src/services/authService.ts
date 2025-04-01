@@ -17,7 +17,7 @@ export class AuthService {
         password: string,
         mobile: number,
         email: string,
-        role: string
+        role: 'user'| 'admin'
     ): Promise<{ message: string }> {
         const userRepository = this.dataSource.getRepository(User);
 
@@ -30,22 +30,18 @@ export class AuthService {
         const user = userRepository.create({ username, password: hashedPassword, mobile, email, role });
         await userRepository.save(user);
 
-        return { message: 'User registered successfully' };
+        return { message: 'User registered successfully',
+         };
     }
 
-    async login(username: string, password: string, secretKey: string): Promise<{ token: string; user: any }> {
+    async login(username: string, password: string): Promise<{ token: string; user: any }> {
         const userRepository = this.dataSource.getRepository(User);
         console.log('Expected Secret Key:', SECRET_KEY);
-        console.log('Provided Secret Key:', secretKey);
-
         const user = await userRepository.findOne({ where: { username } });
         if (!user || !(await bcrypt.compare(password, user.password))) {
             throw { status: 401, message: 'Invalid credentials' };
         }
 
-        if (secretKey !== SECRET_KEY) {
-            throw { status: 403, message: 'Invalid Secret Key' };
-        }
 
         const token = jwt.sign(
             { userId: user.id, role: user.role },
@@ -53,9 +49,7 @@ export class AuthService {
             { expiresIn: '1h' }
         );
 
-
-       
-
         return { token, user: { id: user.id, username: user.username, role: user.role } };
     }
 }
+

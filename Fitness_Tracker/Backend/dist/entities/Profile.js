@@ -21,6 +21,10 @@ __decorate([
 ], Profile.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Profile.prototype, "name", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], Profile.prototype, "age", void 0);
 __decorate([
@@ -36,7 +40,12 @@ __decorate([
     __metadata("design:type", Number)
 ], Profile.prototype, "height", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Profile.prototype, "fitnessLevel", void 0);
+__decorate([
     (0, typeorm_1.OneToOne)(() => User_1.User, user => user.profile),
+    (0, typeorm_1.JoinColumn)({ name: "id" }),
     __metadata("design:type", User_1.User)
 ], Profile.prototype, "user", void 0);
 exports.Profile = Profile = __decorate([

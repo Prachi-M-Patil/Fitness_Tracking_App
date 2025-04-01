@@ -32,6 +32,18 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Goal.prototype, "achieved", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Goal.prototype, "progress", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Date)
+], Goal.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'date', nullable: true }),
+    __metadata("design:type", String)
+], Goal.prototype, "deadline", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => User_1.User, user => user.goals),
     __metadata("design:type", User_1.User)
 ], Goal.prototype, "user", void 0);

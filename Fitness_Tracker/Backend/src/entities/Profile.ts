@@ -1,10 +1,13 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
 
 @Entity({name: 'Profile_Ft_Tracker'})
 export class Profile{
     @PrimaryGeneratedColumn()
     id: number;
+
+    @Column()
+    name: string;
 
     @Column()
     age: number;
@@ -18,7 +21,11 @@ export class Profile{
     @Column()
     height: number;
 
+    @Column()
+    fitnessLevel : string;
+
     @OneToOne(()=> User, user => user.profile)
+    @JoinColumn({name: "id"})
     user: User;
     
 }

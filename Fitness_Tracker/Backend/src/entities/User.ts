@@ -1,28 +1,30 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Profile } from "./Profile";
 import { Workout } from "./Workout";
 import { Goal } from "./Goal";
 import { Activity } from "./Activity";
+import { Meal } from "./Meal";
+import { Nutrition } from "./Nutrition";
 
 @Entity({name: 'User_Ft_Tracker'})
 export class User{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({unique: true})
+    @Column({unique: true })
     username: string;
 
     @Column({unique: true})
     email: String;
 
-    @Column()
+    @Column( )
     password: String;
 
     @Column()
     mobile : number;
 
     @Column({ default: 'user' })
-    role: string;
+    role: 'user'| 'admin';
 
     @OneToOne(()=> Profile , profile => profile.user, {cascade: true})
     profile: Profile;
@@ -33,14 +35,17 @@ export class User{
     @OneToMany(()=> Goal, goal => goal.user)
     goals: Goal[];
     
-
     @OneToMany(()=> Activity, activity => activity.user)
     activities: Activity[];
 
-    @ManyToMany(()=> User)
-    @JoinTable()
-    friends: User[];
-    
-    
+    @ManyToMany(() => Meal, meal => meal.users)
+    meals: Meal[];
 
+    @OneToOne(() => Nutrition, { cascade: true }) // One-to-one relationship with Nutrition
+    nutrition: Nutrition;
+
+    // @ManyToMany(()=> User)
+    // @JoinTable()
+    // friends: User[];
+       
 }

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Nutrition = void 0;
 const typeorm_1 = require("typeorm");
 const Meal_1 = require("./Meal");
+const User_1 = require("./User");
 let Nutrition = class Nutrition {
 };
 exports.Nutrition = Nutrition;
@@ -22,11 +23,27 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
-], Nutrition.prototype, "dailyCalorieIntake", void 0);
+], Nutrition.prototype, "dailyCalories", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Nutrition.prototype, "dailyProtein", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Nutrition.prototype, "dailyCarbs", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Nutrition.prototype, "dailyFats", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => Meal_1.Meal, meal => meal.nutrition),
     __metadata("design:type", Array)
 ], Nutrition.prototype, "meals", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => User_1.User, user => user.nutrition),
+    __metadata("design:type", User_1.User)
+], Nutrition.prototype, "user", void 0);
 exports.Nutrition = Nutrition = __decorate([
     (0, typeorm_1.Entity)({ name: 'Nutrition_Ft_Tracker' })
 ], Nutrition);

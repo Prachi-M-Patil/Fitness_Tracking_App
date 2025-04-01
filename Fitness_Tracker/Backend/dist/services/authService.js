@@ -34,20 +34,17 @@ class AuthService {
             const hashedPassword = yield bcrypt_1.default.hash(password, 10);
             const user = userRepository.create({ username, password: hashedPassword, mobile, email, role });
             yield userRepository.save(user);
-            return { message: 'User registered successfully' };
+            return { message: 'User registered successfully',
+            };
         });
     }
-    login(username, password, secretKey) {
+    login(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
             const userRepository = this.dataSource.getRepository(User_1.User);
             console.log('Expected Secret Key:', SECRET_KEY);
-            console.log('Provided Secret Key:', secretKey);
             const user = yield userRepository.findOne({ where: { username } });
             if (!user || !(yield bcrypt_1.default.compare(password, user.password))) {
                 throw { status: 401, message: 'Invalid credentials' };
-            }
-            if (secretKey !== SECRET_KEY) {
-                throw { status: 403, message: 'Invalid Secret Key' };
             }
             const token = jsonwebtoken_1.default.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
             return { token, user: { id: user.id, username: user.username, role: user.role } };

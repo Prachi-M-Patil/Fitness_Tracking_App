@@ -15,6 +15,8 @@ const Profile_1 = require("./Profile");
 const Workout_1 = require("./Workout");
 const Goal_1 = require("./Goal");
 const Activity_1 = require("./Activity");
+const Meal_1 = require("./Meal");
+const Nutrition_1 = require("./Nutrition");
 let User = class User {
 };
 exports.User = User;
@@ -59,10 +61,14 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "activities", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => User),
-    (0, typeorm_1.JoinTable)(),
+    (0, typeorm_1.ManyToMany)(() => Meal_1.Meal, meal => meal.users),
     __metadata("design:type", Array)
-], User.prototype, "friends", void 0);
+], User.prototype, "meals", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => Nutrition_1.Nutrition, { cascade: true }) // One-to-one relationship with Nutrition
+    ,
+    __metadata("design:type", Nutrition_1.Nutrition)
+], User.prototype, "nutrition", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)({ name: 'User_Ft_Tracker' })
 ], User);

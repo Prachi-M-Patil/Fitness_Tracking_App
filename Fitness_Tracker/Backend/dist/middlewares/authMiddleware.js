@@ -11,10 +11,13 @@ const authMiddleware = (roles) => {
     return (req, res, next) => {
         var _a;
         const token = (_a = req.header('Authorization')) === null || _a === void 0 ? void 0 : _a.split(' ')[1]; // Extract the token from Bearer
-        if (!token)
+        if (!token) {
             return res.status(401).json({ message: 'Access Denied' });
+        }
         try {
-            const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+            const secretKey = process.env.JWT_SECRET;
+            const decoded = jsonwebtoken_1.default.verify(token, secretKey);
+            console.log(decoded);
             // Check if the user role is allowed
             if (!roles.includes(decoded.role)) {
                 return res.status(403).json({ message: 'Forbidden' });
@@ -24,7 +27,8 @@ const authMiddleware = (roles) => {
             next();
         }
         catch (error) {
-            res.status(400).json({ message: 'Invalid Token' });
+            console.error("Token verification error:", error); // Log the error
+            res.status(401).json({ message: 'Invalid Token' });
         }
     };
 };

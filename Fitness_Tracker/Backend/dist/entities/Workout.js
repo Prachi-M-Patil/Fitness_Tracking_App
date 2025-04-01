@@ -33,6 +33,10 @@ __decorate([
     __metadata("design:type", Date)
 ], Workout.prototype, "date", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Workout.prototype, "caloriesBurned", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => User_1.User, user => user.workouts),
     __metadata("design:type", User_1.User)
 ], Workout.prototype, "user", void 0);

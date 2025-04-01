@@ -16,8 +16,12 @@ export class Workout{
     @Column()
     date: Date;
 
+    @Column()
+    caloriesBurned : number;
+
     @ManyToOne(()=> User, user => user.workouts)
     user: User;
+
 
     @OneToMany(()=> Exercise, exercise => exercise.workout)
     exercises: Exercise[];

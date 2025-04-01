@@ -1,0 +1,19 @@
+<div>
+    <h2>View Meals</h2>
+    <ul>
+      <li *ngFor="let meal of meals">
+        {{ meal.name }} - {{ meal.calories }} calories
+      </li>
+    </ul>
+  
+    <div class="meal-actions">
+      <button routerLink="/log-meal" class="btn btn-primary">Log Meal</button>
+      <!-- <button (click)="navigateTo('create-meal')" class="btn btn-secondary">Create Meal</button>
+      <button (click)="navigateTo('update-meal')" class="btn btn-warning">Update Meal</button>
+      <button (click)="navigateTo('delete-meal')" class="btn btn-danger">Delete Meal</button>
+      <button (click)="navigateTo('rate-meal')" class="btn btn-info">Rate Meal</button>
+      <button (click)="navigateTo('meal-recommendations')" class="btn btn-success">Get Meal Recommendations</button>
+      <button (click)="navigateTo('total-meals')" class="btn btn-dark">View Total Meals Available</button> -->
+    </div>
+</div>
+  

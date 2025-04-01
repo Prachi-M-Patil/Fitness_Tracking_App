@@ -1,5 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Meal } from "./Meal";
+import { User } from "./User";
 
 @Entity({name: 'Nutrition_Ft_Tracker'})
 export class Nutrition{
@@ -7,8 +8,21 @@ export class Nutrition{
     id: number;
 
     @Column()
-    dailyCalorieIntake: number;
+    dailyCalories: number;
+
+    @Column()
+    dailyProtein: number;
+
+    @Column()
+    dailyCarbs: number;
+
+    @Column()
+    dailyFats: number;
 
     @OneToMany(()=> Meal, meal=> meal.nutrition)
     meals: Meal[];
+
+    @OneToOne(() => User, user => user.nutrition)
+    user: User;
+    
 }

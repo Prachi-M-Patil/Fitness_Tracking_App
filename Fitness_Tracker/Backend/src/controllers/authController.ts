@@ -20,7 +20,7 @@ export class AuthController {
         const { username, password, secretKey } = req.body;
 
         try {
-            const result = await authService.login(username, password, secretKey);
+            const result = await authService.login(username, password);
             res.status(200).json(result);
         } catch (error: any) {
             res.status(400).json({ error: error.message || 'Login failed' });

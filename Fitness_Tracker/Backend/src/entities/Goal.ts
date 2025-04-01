@@ -7,13 +7,22 @@ export class Goal{
     id: number;
 
     @Column()
-    goalType: string;
+    goalType: string; //e.g. weight loss
 
     @Column()
-    target: string;
+    target: string; //loss 5 kg
 
     @Column({default: false})
     achieved: boolean;
+
+    @Column({nullable: true})
+    progress: number;
+
+    @Column()
+    createdAt: Date;
+
+    @Column({type:'date', nullable: true})
+    deadline: string;
 
     @ManyToOne(()=> User, user => user.goals)
     user: User;

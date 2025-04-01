@@ -1,0 +1,38 @@
+<div class="workout-container">
+  <h2>Add Workout</h2>
+  <p *ngIf="message" class="message">{{ message }}</p>
+
+  <!-- Form for logging workout -->
+  <form (ngSubmit)="logWorkout()" class="workout-form">
+    <label>
+      Type:
+      <input type="text" [(ngModel)]="newWorkout.type" name="type" required />
+    </label>
+    <label>
+      Duration (minutes):
+      <input type="number" [(ngModel)]="newWorkout.duration" name="duration" required />
+    </label>
+    <label>
+      Date:
+      <input type="date" [(ngModel)]="newWorkout.date" name="date" required />
+    </label>
+    <label>
+      Calories Burned:
+      <input type="number" [(ngModel)]="newWorkout.caloriesBurned" name="caloriesBurned" required />
+    </label>
+    <button type="submit" class="btn btn-primary">Log Workout</button>
+  </form>
+
+  <!-- List of workouts -->
+  <div class="workout-list">
+    <h3>Your Workouts</h3>
+    <div *ngIf="workouts.length === 0">No workouts logged yet.</div>
+    <ul>
+      <li *ngFor="let workout of workouts">
+        {{ workout.date | date: 'yyyy-MM-dd' }} - {{ workout.type }}
+        <!-- <button (click)="editWorkout(workout)" class="btn btn-secondary">Edit</button> -->
+        <!-- <button (click)="deleteWorkout(workout.id)" class="btn btn-danger">Delete</button> -->
+      </li>
+    </ul>
+  </div>
+</div>

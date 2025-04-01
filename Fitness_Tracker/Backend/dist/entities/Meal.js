@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Meal = void 0;
 const typeorm_1 = require("typeorm");
 const Nutrition_1 = require("./Nutrition");
+const User_1 = require("./User");
 let Meal = class Meal {
 };
 exports.Meal = Meal;
@@ -40,9 +41,19 @@ __decorate([
     __metadata("design:type", Number)
 ], Meal.prototype, "fats", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Meal.prototype, "rating", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => Nutrition_1.Nutrition, nutrition => nutrition.meals),
     __metadata("design:type", Nutrition_1.Nutrition)
 ], Meal.prototype, "nutrition", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => User_1.User, users => users.meals, { cascade: true }),
+    (0, typeorm_1.JoinTable)() // Creates the join table for the relationship
+    ,
+    __metadata("design:type", Array)
+], Meal.prototype, "users", void 0);
 exports.Meal = Meal = __decorate([
     (0, typeorm_1.Entity)({ name: 'Meal_Ft_Tracker' })
 ], Meal);

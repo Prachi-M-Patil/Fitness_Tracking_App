@@ -23,8 +23,9 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     entities: [User, Profile, Workout, Goal, Activity, Exercise, Friends, Leaderboard, Meal, Nutrition],
     logging: true,
-    synchronize: process.env.NODE_ENV === "development", // Ensure this is 'false' in production
+    synchronize: true, // Ensure this is 'false' in production  process.env.NODE_ENV === "development",
     options: {
+        
         trustServerCertificate: true,
     },
 });
