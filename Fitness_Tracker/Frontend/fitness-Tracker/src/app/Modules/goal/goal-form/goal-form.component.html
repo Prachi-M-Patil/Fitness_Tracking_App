@@ -1,33 +1,37 @@
 <form (ngSubmit)="createGoal()">
-  <div>
-    <label for="name">Goal Name:</label>
+  <div class="form-group">
+    <label for="name">Goal Name: <span class="required">*</span></label>
     <input type="text" id="name" [(ngModel)]="goal.name" name="name" required>
   </div>
-  <div>
-    <label for="goalType">Goal Type:</label>
-    <input type="text" id="goalType" [(ngModel)]="goal.goalType" name="goalType" required>
+  <div class="form-group">
+    <label for="goalType">Goal Type: <span class="required">*</span></label>
+    <select id="goalType" [(ngModel)]="goal.goalType" name="goalType" required>
+      <option value="">Select Goal Type</option>
+      <option value="# of workout"># of workout</option>
+      <option value="distance">Distance</option>
+      <option value="duration">Duration</option>
+    </select>
   </div>
-  <div>
-    <label for="target">Target:</label>
+  <div class="form-group">
+    <label for="target">Target: <span class="required">*</span></label>
     <input type="text" id="target" [(ngModel)]="goal.target" name="target" required>
   </div>
-  <div>
+  <div class="form-group">
     <label for="deadline">Deadline:</label>
     <input type="date" id="deadline" [(ngModel)]="goal.deadline" name="deadline">
   </div>
-  <div>
-    <label for="progress">Progress:</label>
+  <div class="form-group">
+    <label for="progress">Progress: <span class="required">*</span></label>
     <input type="number" id="progress" [(ngModel)]="goal.progress" name="progress" required>
   </div>
-  <div>
+  <div class="form-group">
     <label for="achieved">Achieved:</label>
     <input type="checkbox" id="achieved" [(ngModel)]="goal.achieved" name="achieved">
   </div>
-  <div>
+  <div class="form-group">
     <label for="createdAt">Created At:</label>
     <input type="date" id="createdAt" [(ngModel)]="goal.createdAt" name="createdAt">
   </div>
-  <button type="submit">Create Goal</button>
+  <button type="submit" class="btn">Create Goal</button>
 </form>
 <app-goal-list></app-goal-list>
-  

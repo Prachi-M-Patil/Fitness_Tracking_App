@@ -5,8 +5,12 @@ import cors from 'cors';
 import profileRoutes from "./routes/profileRoutes";
 import workoutRoute from "./routes/workoutRoute";
 import goalRoutes from "./routes/goalRoutes";
-import mealsRouter from "./routes/MealRoutes";
-import nutritionrouter from "./routes/NutritionRoutes";
+// import mealsRouter from "./routes/MealRoutes";
+// import nutritionrouter from "./routes/NutritionRoutes";
+import adminRoutes from "./routes/adminRoutes";
+import MealRoutes from "./routes/MealRoutes";
+import NutritionRoutes from "./routes/NutritionRoutes";
+import activityRoutes from "./routes/activityRoutes";
 
 
 const app = express();
@@ -17,11 +21,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/workout', workoutRoute);
 app.use('/api/goals', goalRoutes);
-app.use('/api/meals', mealsRouter);
-app.use('api/nutritions', nutritionrouter);
-
-
-
+app.use('/api/meals', MealRoutes);
+app.use('api/nutritions', NutritionRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('api/activity', activityRoutes);
 
 
 AppDataSource.initialize()

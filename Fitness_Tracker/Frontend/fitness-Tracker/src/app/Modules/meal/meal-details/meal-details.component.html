@@ -1,0 +1,14 @@
+<h2>Meal Details</h2>
+<div *ngIf="meal">
+  <p><strong>ID:</strong> {{ meal.id }}</p>
+  <p><strong>Name:</strong> {{ meal.name }}</p>
+  <p><strong>Type:</strong> {{ meal.mealtype }}</p>
+  <p><strong>Calories:</strong> {{ meal.calories }}</p>
+  <p><strong>Protein:</strong> {{ meal.Protein }}</p>
+  <p><strong>Carbs:</strong> {{ meal.carbs }}</p>
+  <p><strong>Fats:</strong> {{ meal.fats }}</p>
+  <p><strong>Rating:</strong> {{ meal.rating }}</p>
+  <p><strong>Liked:</strong> {{ meal.liked ? 'Yes' : 'No' }}</p>
+  <p><strong>Available:</strong> {{ meal.available ? 'Yes' : 'No' }}</p>
+</div>
+<button [routerLink]="['/meal-list']">Back to List</button>

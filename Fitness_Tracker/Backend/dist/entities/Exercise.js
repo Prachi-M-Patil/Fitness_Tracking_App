@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Exercise = void 0;
 const typeorm_1 = require("typeorm");
-const Workout_1 = require("./Workout");
 let Exercise = class Exercise {
 };
 exports.Exercise = Exercise;
@@ -35,10 +34,6 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], Exercise.prototype, "weight", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => Workout_1.Workout, workout => workout.exercises),
-    __metadata("design:type", Workout_1.Workout)
-], Exercise.prototype, "workout", void 0);
 exports.Exercise = Exercise = __decorate([
     (0, typeorm_1.Entity)({ name: 'Exercise_Ft_Tracker' })
 ], Exercise);

@@ -1,13 +1,17 @@
-import { Router } from "express";
-import { authMiddleware } from "../middlewares/authMiddleware";
-import { NutritionController } from "../controllers/nutritionController";
+import { Router } from 'express';
+import { NutritionController } from '../controllers/nutritionController';
+import { NutritionService } from '../services/nutritionService';
+import { authMiddleware } from '../middlewares/authMiddleware';
 
-const nutritionrouter = Router();
-const nutritionController = new NutritionController();
+const router = Router();
+const nutritionService = new NutritionService();
+const nutritionController = new NutritionController(nutritionService);
 
-nutritionrouter.post("/createNutrition",authMiddleware(['admin', 'user']), (req, res) => nutritionController.createOrUpdateNutrition(req, res));
-nutritionrouter.get("/getNutrition",authMiddleware(['user', 'admin']), (req, res) => nutritionController.getNutrition(req, res));
-nutritionrouter.get("/getAllNutritions",authMiddleware(['user', 'admin']), (req, res) => nutritionController.getAllNutrition(req, res)); // For updating profile
-nutritionrouter.delete("/deleteNutrition",authMiddleware(['user', 'admin']), (req, res) => nutritionController.deleteNutrition(req, res)); // For updating profile
+router.post('/',authMiddleware(['admin']), (req, res) => nutritionController.addNutrition(req, res));
+router.put('/:id',authMiddleware(['admin']), (req, res) => nutritionController.updateNutrition(req, res));
+router.delete('/:id',authMiddleware(['admin']), (req, res) => nutritionController.deleteNutrition(req, res));
+router.get('/:id',authMiddleware(['admin', 'user']), (req, res) => nutritionController.getNutritionById(req, res));
+router.get('/',authMiddleware(['admin', 'user']), (req, res) => nutritionController.getAllNutrition(req, res));
+router.get('/user/:userId',authMiddleware(['admin', 'user']), (req, res) => nutritionController.getUserNutrition(req, res));
 
-export default nutritionrouter;
+export default router;

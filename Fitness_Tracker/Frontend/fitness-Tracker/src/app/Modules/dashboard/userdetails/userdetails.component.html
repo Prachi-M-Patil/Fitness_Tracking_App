@@ -1,0 +1,22 @@
+<div class="container">
+    <h2>Update User Details</h2>
+    <form (ngSubmit)="saveUserDetails()">
+      <label for="username">Username:</label>
+      <input type="text" [(ngModel)]="userData.username" name="username" required>
+  
+      <label for="email">Email:</label>
+      <input type="email" [(ngModel)]="userData.email" name="email" required>
+  
+      <label for="mobile">Mobile:</label>
+      <input type="text" [(ngModel)]="userData.mobile" name="mobile" required>
+  
+      <label for="role">Role:</label>
+      <select [(ngModel)]="userData.role" name="role" required>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+  
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+  

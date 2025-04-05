@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { User } from './admin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,11 @@ export class AuthService {
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
+      
         const token = response.token; // Assuming the response contains a token
         this.saveToken(token); // Save token to local storage
         localStorage.setItem('userId', response.user.id);
+        localStorage.setItem('user', JSON.stringify(response.user));
         this.authTokenSubject.next(token); // Update the BehaviorSubject with the new token
       })
     );
@@ -42,13 +45,14 @@ export class AuthService {
     return this.authToken$.pipe(
       map(token => !!token) // Converts `string | null` to `boolean`
     );
-  }
+  }//returns true If there is a valid token else false
 
   
   logout(): void {
     localStorage.removeItem('authToken'); // Remove the token from local storage
     localStorage.removeItem('userId');
     localStorage.removeItem('role');
+    localStorage.removeItem('username');
     this.authTokenSubject.next(null); // Update the BehaviorSubject to null
   }
 
@@ -65,4 +69,24 @@ export class AuthService {
   getUserRole(): string {
     return localStorage.getItem('role') || '';
   }
+
+  // getCurrentUser(): User {
+  //   const data = JSON.parse(localStorage.getItem('user') || '{}');
+  //   console.log(data);
+  //   return data;
+  // }
+  getCurrentUser(): User {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      try {
+        const user = JSON.parse(userJson);
+        return user;
+      } catch (error) {
+        console.error('Error parsing user JSON:', error);
+        return {} as User; // Return an empty User object or handle the error appropriately
+      }
+    }
+    return {} as User; // Return an empty User object if no user is found in localStorage
+  }
+  
 }

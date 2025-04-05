@@ -18,7 +18,7 @@ export class Exercise{
     @Column()
     weight: number;
 
-    @ManyToOne(()=> Workout, workout => workout.exercises)
-    workout: Workout;
+    // @ManyToOne(()=> Workout, workout => workout.exercises)
+    // workout: Workout;
 
 }

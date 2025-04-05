@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Workout = void 0;
 const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
-const Exercise_1 = require("./Exercise");
 let Workout = class Workout {
 };
 exports.Workout = Workout;
@@ -40,10 +39,6 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => User_1.User, user => user.workouts),
     __metadata("design:type", User_1.User)
 ], Workout.prototype, "user", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => Exercise_1.Exercise, exercise => exercise.workout),
-    __metadata("design:type", Array)
-], Workout.prototype, "exercises", void 0);
 exports.Workout = Workout = __decorate([
     (0, typeorm_1.Entity)({ name: 'Workout_Ft_Tracker' })
 ], Workout);

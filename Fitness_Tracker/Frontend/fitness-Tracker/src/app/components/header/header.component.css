@@ -23,16 +23,21 @@
     list-style: none;
   }
   
-  .navbar a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    transition: color 0.3s;
-  }
-  
-  .navbar a:hover {
-    color: #1ec5c9;
-  }
+ /* Add this CSS to your stylesheet */
+.navbar ul li a {
+  font-size: 18px; /* Increase the font size */
+  color:cornsilk; /* Change the text color */
+  text-decoration: none; /* Remove underline */
+  padding: 10px 15px; /* Add padding */
+  border-radius: 5px; /* Add rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.navbar ul li a:hover {
+  background-color: #0056b3; /* Change background color on hover */
+  color: #ffffff; /* Change text color on hover */
+}
+
   
   .auth-links a {
     margin-left: 15px;
@@ -58,4 +63,25 @@
     background: white;
     color: #1ec5c9;
   }
-  
+  /* Add this CSS to your stylesheet */
+.auth-links span {
+  font-size: 16px; /* Increase font size */
+  color:rgb(245, 240, 235); /* Change text color */
+  font-weight: bold; /* Make text bold */
+  margin-right: 10px; /* Add space between text and button */
+}
+
+.auth-links button {
+  font-size: 16px; /* Increase font size */
+  color: #ffffff; /* Change text color */
+  background-color: #007BFF; /* Change background color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Add padding */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.auth-links button:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}

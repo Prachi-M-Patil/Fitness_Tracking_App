@@ -1,12 +1,36 @@
-export class GoalDTO{
+import { IsString, IsNumber, IsBoolean, IsDate, ValidateNested, IsNotEmpty } from 'class-validator';
+import { Type } from 'class-transformer';
+import { User } from '../entities/User';
+
+export class GoalDTO {
+    @IsNumber()
+    id: number;
+
+    @IsString()
+    @IsNotEmpty()
     name: string;
-    goalType: string; //e.g. weight loss
-    target: number;
-    deadline?: string; //(format: YYYY-MM-DD)
-    progress?: number;
-    achieved?: boolean; 
-    createdAt?: string;
+
+    @IsString()
+    @IsNotEmpty()
+    goalType: string;
+
+    @IsString()
+    @IsNotEmpty()
+    target: string;
+
+    @IsBoolean()
+    achieved: boolean;
+
+    @IsNumber()
+    progress: number;
+
+    @IsDate()
+    createdAt: Date;
+
+    @IsString()
+    deadline: string;
+
+    @ValidateNested()
+    @Type(() => User)
+    user: User;
 }
-
-
-

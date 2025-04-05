@@ -11,7 +11,7 @@ export class Workout{
     type: string;
 
     @Column()
-    duration: number;
+    duration: number;//in minutes
 
     @Column()
     date: Date;
@@ -21,9 +21,5 @@ export class Workout{
 
     @ManyToOne(()=> User, user => user.workouts)
     user: User;
-
-
-    @OneToMany(()=> Exercise, exercise => exercise.workout)
-    exercises: Exercise[];
 
 }

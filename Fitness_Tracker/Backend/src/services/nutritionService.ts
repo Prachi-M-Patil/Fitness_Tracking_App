@@ -1,53 +1,37 @@
-import { NutritionDTO } from "../dto/nutritionDTO";
 import { Nutrition } from "../entities/Nutrition";
 import { nutritionRepository } from "../repositories/NutritionRepo";
-import { userRepository } from "../repositories/UserRepo";
 
 export class NutritionService {
-    // Create or Update Nutrition for a User
-    async createOrUpdateNutrition(userId: number, nutritionData: NutritionDTO): Promise<Nutrition> {
-        const user = await userRepository.findOne({ where: { id: userId } });
-        if (!user) {
-            throw new Error(`User with ID ${userId} not found.`);
-        }
-
-        let nutrition = await nutritionRepository.findOne({ where: { user: { id: userId } } });
-        if (nutrition) {
-            // Update existing nutrition data
-            Object.assign(nutrition, nutritionData);
-        } else {
-            // Create new nutrition data
-            nutrition = nutritionRepository.create({ ...nutritionData, user });
-        }
+    async addNutrition(nutritionData: Partial<Nutrition>): Promise<Nutrition> {
+        const nutrition = nutritionRepository.create(nutritionData);
         return await nutritionRepository.save(nutrition);
     }
 
-    // Get Nutrition for a User
-    async getNutrition(userId: number): Promise<Nutrition> {
-        const nutrition = await nutritionRepository.findOne({
-            where: { user: { id: userId } },
-            relations: ['user'],
-        });
+    async updateNutrition(nutritionId: number, nutritionData: Partial<Nutrition>): Promise<Nutrition | null> {
+        const nutrition = await nutritionRepository.findOne({ where: { id: nutritionId } });
 
         if (!nutrition) {
-            throw new Error(`Nutrition data not found for user with ID ${userId}.`);
+            return null;
         }
 
-        return nutrition;
+        Object.assign(nutrition, nutritionData);
+        const updatedNutrition = await nutritionRepository.save(nutrition);
+        return updatedNutrition;
     }
 
-    // Delete Nutrition for a User
-    async deleteNutrition(userId: number): Promise<void> {
-        const nutrition = await nutritionRepository.findOne({ where: { user: { id: userId } } });
-        if (!nutrition) {
-            throw new Error(`Nutrition data not found for user with ID ${userId}.`);
-        }
-
-        await nutritionRepository.remove(nutrition);
+    async deleteNutrition(nutritionId: number): Promise<void> {
+        await nutritionRepository.delete(nutritionId);
     }
 
-    // Get All Nutrition Records (Admin only)
+    async getNutritionById(nutritionId: number): Promise<Nutrition | null> {
+        return await nutritionRepository.findOne({ where: { id: nutritionId }, relations: ["meals", "user"] });
+    }
+
     async getAllNutrition(): Promise<Nutrition[]> {
-        return await nutritionRepository.find({ relations: ['user'] });
+        return await nutritionRepository.find({ relations: ["meals", "user"] });
+    }
+
+    async getUserNutrition(userId: number): Promise<Nutrition[]> {
+        return await nutritionRepository.find({ where: { user: { id: userId } }, relations: ["user"] });
     }
 }

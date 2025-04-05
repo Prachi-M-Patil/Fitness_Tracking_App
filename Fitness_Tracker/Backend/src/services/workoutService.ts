@@ -37,4 +37,9 @@ export class WorkoutService{
 
     }
         
+    
+    async getAllWorkouts(): Promise<Workout[]> {
+        return await workoutRepository.find({ relations: ["user"] });
+    }
+
 }

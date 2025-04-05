@@ -1,12 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const authMiddleware_1 = require("../middlewares/authMiddleware");
 const nutritionController_1 = require("../controllers/nutritionController");
-const nutritionrouter = (0, express_1.Router)();
-const nutritionController = new nutritionController_1.NutritionController();
-nutritionrouter.post("/createNutrition", (0, authMiddleware_1.authMiddleware)(['admin', 'user']), (req, res) => nutritionController.createOrUpdateNutrition(req, res));
-nutritionrouter.get("/getNutrition", (0, authMiddleware_1.authMiddleware)(['user', 'admin']), (req, res) => nutritionController.getNutrition(req, res));
-nutritionrouter.get("/getAllNutritions", (0, authMiddleware_1.authMiddleware)(['user', 'admin']), (req, res) => nutritionController.getAllNutrition(req, res)); // For updating profile
-nutritionrouter.delete("/deleteNutrition", (0, authMiddleware_1.authMiddleware)(['user', 'admin']), (req, res) => nutritionController.deleteNutrition(req, res)); // For updating profile
-exports.default = nutritionrouter;
+const nutritionService_1 = require("../services/nutritionService");
+const authMiddleware_1 = require("../middlewares/authMiddleware");
+const router = (0, express_1.Router)();
+const nutritionService = new nutritionService_1.NutritionService();
+const nutritionController = new nutritionController_1.NutritionController(nutritionService);
+router.post('/', (0, authMiddleware_1.authMiddleware)(['admin']), (req, res) => nutritionController.addNutrition(req, res));
+router.put('/:id', (0, authMiddleware_1.authMiddleware)(['admin']), (req, res) => nutritionController.updateNutrition(req, res));
+router.delete('/:id', (0, authMiddleware_1.authMiddleware)(['admin']), (req, res) => nutritionController.deleteNutrition(req, res));
+router.get('/:id', (0, authMiddleware_1.authMiddleware)(['admin', 'user']), (req, res) => nutritionController.getNutritionById(req, res));
+router.get('/', (0, authMiddleware_1.authMiddleware)(['admin', 'user']), (req, res) => nutritionController.getAllNutrition(req, res));
+router.get('/user/:userId', (0, authMiddleware_1.authMiddleware)(['admin', 'user']), (req, res) => nutritionController.getUserNutrition(req, res));
+exports.default = router;

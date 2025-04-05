@@ -1,32 +1,64 @@
-import { IsNumber, IsOptional, IsString, Length, Min, Max } from "class-validator";
+import { IsString, IsNumber, IsBoolean, ValidateNested, IsNotEmpty } from 'class-validator';
+import { NutritionDTO } from './nutritionDTO';
+import { User } from '../entities/User';
+import { Type } from 'class-transformer';
 
 export class MealDTO {
-    @IsOptional()
+    @IsNumber()
+    id: number;
+
     @IsString()
-    @Length(1, 100) // Validate length between 1 and 100 characters for strings
-    name?: string;
+    @IsNotEmpty()
+    name: string;
 
-    
-    @IsNumber()
-    @Min(0) // Minimum allowed value for calories
-    @Max(10000) // Maximum allowed value for calories
-    calories?: number;
+    @IsString()
+    mealtype: string;
 
-    @IsOptional()
     @IsNumber()
-    @Min(0) // Minimum allowed value for protein
-    @Max(1000) // Maximum allowed value for protein
-    protein?: number;
+    calories: number;
 
-    @IsOptional()
     @IsNumber()
-    @Min(0) // Minimum allowed value for carbs
-    @Max(1000) // Maximum allowed value for carbs
-    carbs?: number;
+    protein: number;
 
-    @IsOptional()
     @IsNumber()
-    @Min(0) // Minimum allowed value for fats
-    @Max(1000) // Maximum allowed value for fats
-    fats?: number;
+    carbs: number;
+
+    @IsNumber()
+    fats: number;
+
+    @IsNumber()
+    rating: number;
+
+    @IsBoolean()
+    liked: boolean;
+
+    @IsBoolean()
+    available: boolean;
+
+    @ValidateNested()
+    @Type(() => NutritionDTO)
+    nutrition: NutritionDTO;
+
+    @ValidateNested()
+    @Type(() => User)
+    users: User;
 }
+
+// import { User } from "../entities/User";
+// import { NutritionDTO } from "./nutritionDTO";
+
+// export interface MealDTO {
+//     id: number;
+//     name?: string;
+//     mealtype: string;
+//     calories: number;
+//     protein?: number;
+//     carbs?: number;
+//     fats?: number;
+//     rating?: number;
+//     available: boolean;
+//     liked?: boolean;
+//     nutrition: NutritionDTO;
+//     users: User;
+//   }
+  

@@ -1,0 +1,15 @@
+<h2>Edit Meal</h2>
+<form (ngSubmit)="updateMeal()">
+  <label>Name:</label>
+  <input type="text" [(ngModel)]="meal.name" name="name" required />
+  
+  <label>Type:</label>
+  <input type="text" [(ngModel)]="meal.mealtype" name="type" required />
+  
+  <label>Calories:</label>
+  <input type="number" [(ngModel)]="meal.calories" name="calories" required />
+  
+  <!-- Add other fields as needed -->
+  <button type="submit">Update Meal</button>
+</form>
+<button [routerLink]="['/meal-list']">Back to List</button>

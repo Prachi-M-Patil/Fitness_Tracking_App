@@ -41,6 +41,10 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "mobile", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ default: true }),
+    __metadata("design:type", Boolean)
+], User.prototype, "active", void 0);
+__decorate([
     (0, typeorm_1.Column)({ default: 'user' }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
@@ -61,13 +65,13 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "activities", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => Meal_1.Meal, meal => meal.users),
+    (0, typeorm_1.OneToMany)(() => Meal_1.Meal, meal => meal.users, { cascade: true }),
     __metadata("design:type", Array)
 ], User.prototype, "meals", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => Nutrition_1.Nutrition, { cascade: true }) // One-to-one relationship with Nutrition
+    (0, typeorm_1.OneToMany)(() => Nutrition_1.Nutrition, (nutrition) => nutrition.user) // One-to-one relationship with Nutrition
     ,
-    __metadata("design:type", Nutrition_1.Nutrition)
+    __metadata("design:type", Array)
 ], User.prototype, "nutrition", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)({ name: 'User_Ft_Tracker' })

@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Nutrition } from "./Nutrition";
 import { User } from "./User";
 
@@ -9,6 +9,9 @@ export class Meal{
 
     @Column()
     name: string;
+
+    @Column({ nullable: true })
+    mealtype: string; //breakfast, lunch, dinner
 
     @Column()
     calories: number;
@@ -23,13 +26,20 @@ export class Meal{
     fats: number;
 
     @Column()
-    rating: number;    
+    rating: number;
+    
+    @Column({ default: false })
+    liked: boolean;
+    
 
-    @ManyToOne(()=> Nutrition, nutrition => nutrition.meals)
+    @Column({ default: true })
+    available: boolean;
+
+    @OneToMany(()=> Nutrition, nutrition => nutrition.meals)
     nutrition: Nutrition;
 
-    @ManyToMany(() => User, users => users.meals, { cascade: true })
-    @JoinTable() // Creates the join table for the relationship
-    users: User[];
-
+    @ManyToOne(() => User, users => users.meals, {onDelete: "CASCADE"})
+    // @JoinColumn()// Creates the join table for the relationship
+    users: User;
+    
 }

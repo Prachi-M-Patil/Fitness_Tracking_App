@@ -1,0 +1,27 @@
+<h2>Meal List</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Calories</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let meal of meals">
+      <td>{{ meal.id }}</td>
+      <td>{{ meal.name }}</td>
+      <td>{{ meal.mealtype }}</td>
+      <td>{{ meal.calories }}</td>
+      <td>
+        <button [routerLink]="['/meal-details', meal.id]">View</button>
+        <button [routerLink]="['/meal-edit', meal.id]">Edit</button>
+        <button [routerLink]="['/meal-delete', meal.id ]">Delete</button>
+        <!-- <button [routerLink]="['/add-meal' , User.id]">add meal</button> -->
+      </td>
+    </tr>
+  </tbody>
+</table>
+<button *ngIf="getUserRole()" [routerLink]="['/add-meal']">Add meal</button>

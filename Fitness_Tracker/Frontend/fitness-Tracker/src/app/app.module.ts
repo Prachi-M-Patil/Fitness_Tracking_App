@@ -5,9 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { RegisterComponent } from './components/register/register.component';
-import { LoginComponent } from './components/login/login.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { RegisterComponent } from './Modules/auth/register/register.component';
+import { LoginComponent } from './Modules/auth/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { SharedLayoutComponent } from './shared-layout/shared-layout.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -21,17 +20,24 @@ import { AdminDashboardComponent } from './Modules/dashboard/admin-dashboard/adm
 import { UserDashboardComponent } from './Modules/dashboard/user-dashboard/user-dashboard.component';
 import { DashboardModule } from './Modules/dashboard/dashboard.module';
 import { AuthService } from './services/auth.service';
-import { LogMealComponent } from './Modules/meal/log-meal/log-meal.component';
+import { AuthModule } from './Modules/auth/auth.module';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MealModule } from './Modules/meal/meal.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
-    LoginComponent,
     SharedLayoutComponent,
     HeaderComponent,
-    FooterComponent    
-  ],
+    FooterComponent,
+    SidebarComponent
+ ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -40,7 +46,14 @@ import { LogMealComponent } from './Modules/meal/log-meal/log-meal.component';
     ProfileModule,
     WorkoutModule,
     GoalModule,
-    DashboardModule
+    DashboardModule,
+    AuthModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    MatToolbarModule,
+    MealModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

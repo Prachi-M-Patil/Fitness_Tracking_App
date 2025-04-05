@@ -10,8 +10,12 @@ const cors_1 = __importDefault(require("cors"));
 const profileRoutes_1 = __importDefault(require("./routes/profileRoutes"));
 const workoutRoute_1 = __importDefault(require("./routes/workoutRoute"));
 const goalRoutes_1 = __importDefault(require("./routes/goalRoutes"));
+// import mealsRouter from "./routes/MealRoutes";
+// import nutritionrouter from "./routes/NutritionRoutes";
+const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
 const MealRoutes_1 = __importDefault(require("./routes/MealRoutes"));
 const NutritionRoutes_1 = __importDefault(require("./routes/NutritionRoutes"));
+const activityRoutes_1 = __importDefault(require("./routes/activityRoutes"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -21,6 +25,8 @@ app.use('/api/workout', workoutRoute_1.default);
 app.use('/api/goals', goalRoutes_1.default);
 app.use('/api/meals', MealRoutes_1.default);
 app.use('api/nutritions', NutritionRoutes_1.default);
+app.use('/api/admin', adminRoutes_1.default);
+app.use('api/activity', activityRoutes_1.default);
 database_1.AppDataSource.initialize()
     .then(() => {
     console.log("Data Source Initialized");

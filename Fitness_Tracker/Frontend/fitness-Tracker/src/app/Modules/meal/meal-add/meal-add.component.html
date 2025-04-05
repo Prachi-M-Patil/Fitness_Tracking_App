@@ -1,0 +1,57 @@
+<h2>Add New Meal</h2>
+<form (ngSubmit)="addMeal()">
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" type="text" [(ngModel)]="newMeal.name" name="name" required />
+  </div>
+
+  <div>
+    <label for="mealtype">Meal Type:</label>
+    <input id="mealtype" type="text" [(ngModel)]="newMeal.mealtype" name="mealtype" required />
+  </div>
+
+  <div>
+    <label for="calories">Calories:</label>
+    <input id="calories" type="number" [(ngModel)]="newMeal.calories" name="calories" required />
+  </div>
+
+  <div>
+    <label for="protein">Protein:</label>
+    <input id="protein" type="number" [(ngModel)]="newMeal.Protein" name="Protein" required />
+  </div>
+
+  <div>
+    <label for="carbs">Carbs:</label>
+    <input id="carbs" type="number" [(ngModel)]="newMeal.carbs" name="carbs" required />
+  </div>
+
+  <div>
+    <label for="fats">Fats:</label>
+    <input id="fats" type="number" [(ngModel)]="newMeal.fats" name="fats" required />
+  </div>
+
+  <div>
+    <label for="rating">Rating:</label>
+    <input id="rating" type="number" [(ngModel)]="newMeal.rating" name="rating" step="0.1" required />
+  </div>
+
+  <div>
+    <label for="liked">Liked:</label>
+    <input id="liked" type="checkbox" [(ngModel)]="newMeal.liked" name="liked" />
+  </div>
+
+  <div>
+    <label for="available">Available:</label>
+    <input id="available" type="checkbox" [(ngModel)]="newMeal.available" name="available" />
+  </div>
+
+  <div>
+    <label for="nutrition">Nutrition:</label>
+    <input id="nutrition" type="text" [(ngModel)]="newMeal.nutrition" name="nutrition" />
+  </div>
+
+ 
+  <button type="submit">Add Meal</button>
+</form>
+
+<button [routerLink]="['/meal-list']">Back to List</button>

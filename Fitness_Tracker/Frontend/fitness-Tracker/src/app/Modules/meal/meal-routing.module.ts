@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LogMealComponent } from './log-meal/log-meal.component';
-import { ViewMealsComponent } from './view-meal/view-meal.component';
+import { MealListComponent } from './meal-list/meal-list.component';
+import { MealAddComponent } from './meal-add/meal-add.component';
+import { MealEditComponent } from './meal-edit/meal-edit.component';
+import { MealDeleteComponent } from './meal-delete/meal-delete.component';
+import { MealDetailsComponent } from './meal-details/meal-details.component';
+
 
 const routes: Routes = [
   {
-    path: 'log-meal', // Route for logging meals 
-    component: LogMealComponent,
+    path: 'meal-list', // Route for logging meals 
+    component: MealListComponent,
   },
   {
-    path: 'view-meals', // Route to view a specific user's Meals
-    component: ViewMealsComponent,
+    path: 'add-meal',  
+    component: MealAddComponent,
   },
-  { path: '', component: ViewMealsComponent },
+  {path: 'meal-details/:id', component: MealDetailsComponent},
+  { path: 'meal-edit/:id', component: MealEditComponent },
+  { path: 'meal-delete/:id', component: MealDeleteComponent},
+  {path:'', component: MealAddComponent}
 
 
 ];

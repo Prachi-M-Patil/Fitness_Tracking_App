@@ -10,65 +10,79 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NutritionController = void 0;
-const nutritionService_1 = require("../services/nutritionService");
 class NutritionController {
-    constructor() {
-        this.nutritionService = new nutritionService_1.NutritionService();
+    constructor(nutritionService) {
+        this.nutritionService = nutritionService;
     }
-    createOrUpdateNutrition(req, res) {
+    addNutrition(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userId = parseInt(req.params.userId);
                 const nutritionData = req.body;
-                const createdNutrition = yield this.nutritionService.createOrUpdateNutrition(userId, nutritionData);
-                res.status(201).send(createdNutrition);
+                const nutrition = yield this.nutritionService.addNutrition(nutritionData);
+                res.status(201).json(nutrition);
             }
             catch (error) {
-                console.error("Error creating or updating nutrition:", error);
-                res.status(500).send({ message: "An error occurred while creating or updating nutrition.", error });
+                res.status(error.status || 500).json({ message: error.message });
             }
         });
     }
-    getNutrition(req, res) {
+    updateNutrition(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userId = parseInt(req.params.userId);
-                const nutrition = yield this.nutritionService.getNutrition(userId);
-                if (!nutrition) {
-                    res.status(404).json({ message: "Nutrition not found" });
-                    return;
-                }
+                const nutritionId = parseInt(req.params.id, 10);
+                const nutritionData = req.body;
+                const nutrition = yield this.nutritionService.updateNutrition(nutritionId, nutritionData);
                 res.status(200).json(nutrition);
             }
             catch (error) {
-                console.error("Error fetching nutrition:", error);
-                res.status(500).json({ error: "Internal Server Error" });
+                res.status(error.status || 500).json({ message: error.message });
             }
         });
     }
     deleteNutrition(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userId = parseInt(req.params.userId);
-                yield this.nutritionService.deleteNutrition(userId);
-                res.status(200).json({ message: "Nutrition successfully deleted" });
+                const nutritionId = parseInt(req.params.id, 10);
+                yield this.nutritionService.deleteNutrition(nutritionId);
+                res.status(200).json({ message: 'Nutrition deleted successfully' });
             }
             catch (error) {
-                console.error("Error deleting nutrition:", error);
-                res.status(500).json({ error: "Failed to delete nutrition" });
+                res.status(error.status || 500).json({ message: error.message });
             }
         });
     }
-    //for admin
+    getNutritionById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const nutritionId = parseInt(req.params.id, 10);
+                const nutrition = yield this.nutritionService.getNutritionById(nutritionId);
+                res.status(200).json(nutrition);
+            }
+            catch (error) {
+                res.status(error.status || 500).json({ message: error.message });
+            }
+        });
+    }
     getAllNutrition(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const allNutrition = yield this.nutritionService.getAllNutrition();
-                res.status(200).json(allNutrition);
+                const nutrition = yield this.nutritionService.getAllNutrition();
+                res.status(200).json(nutrition);
             }
             catch (error) {
-                console.error("Error fetching all nutrition records:", error);
-                res.status(500).json({ error: "Internal Server Error" });
+                res.status(error.status || 500).json({ message: error.message });
+            }
+        });
+    }
+    getUserNutrition(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = parseInt(req.params.userId, 10);
+                const nutrition = yield this.nutritionService.getUserNutrition(userId);
+                res.status(200).json(nutrition);
+            }
+            catch (error) {
+                res.status(error.status || 500).json({ message: error.message });
             }
         });
     }

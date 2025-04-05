@@ -22,7 +22,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Activity.prototype, "type", void 0);
+], Activity.prototype, "activityType", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
@@ -31,6 +31,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], Activity.prototype, "distance", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Boolean)
+], Activity.prototype, "achieved", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Date)

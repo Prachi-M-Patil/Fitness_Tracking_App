@@ -11,54 +11,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NutritionService = void 0;
 const NutritionRepo_1 = require("../repositories/NutritionRepo");
-const UserRepo_1 = require("../repositories/UserRepo");
 class NutritionService {
-    // Create or Update Nutrition for a User
-    createOrUpdateNutrition(userId, nutritionData) {
+    addNutrition(nutritionData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield UserRepo_1.userRepository.findOne({ where: { id: userId } });
-            if (!user) {
-                throw new Error(`User with ID ${userId} not found.`);
-            }
-            let nutrition = yield NutritionRepo_1.nutritionRepository.findOne({ where: { user: { id: userId } } });
-            if (nutrition) {
-                // Update existing nutrition data
-                Object.assign(nutrition, nutritionData);
-            }
-            else {
-                // Create new nutrition data
-                nutrition = NutritionRepo_1.nutritionRepository.create(Object.assign(Object.assign({}, nutritionData), { user }));
-            }
+            const nutrition = NutritionRepo_1.nutritionRepository.create(nutritionData);
             return yield NutritionRepo_1.nutritionRepository.save(nutrition);
         });
     }
-    // Get Nutrition for a User
-    getNutrition(userId) {
+    updateNutrition(nutritionId, nutritionData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const nutrition = yield NutritionRepo_1.nutritionRepository.findOne({
-                where: { user: { id: userId } },
-                relations: ['user'],
-            });
+            const nutrition = yield NutritionRepo_1.nutritionRepository.findOne({ where: { id: nutritionId } });
             if (!nutrition) {
-                throw new Error(`Nutrition data not found for user with ID ${userId}.`);
+                return null;
             }
-            return nutrition;
+            Object.assign(nutrition, nutritionData);
+            const updatedNutrition = yield NutritionRepo_1.nutritionRepository.save(nutrition);
+            return updatedNutrition;
         });
     }
-    // Delete Nutrition for a User
-    deleteNutrition(userId) {
+    deleteNutrition(nutritionId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const nutrition = yield NutritionRepo_1.nutritionRepository.findOne({ where: { user: { id: userId } } });
-            if (!nutrition) {
-                throw new Error(`Nutrition data not found for user with ID ${userId}.`);
-            }
-            yield NutritionRepo_1.nutritionRepository.remove(nutrition);
+            yield NutritionRepo_1.nutritionRepository.delete(nutritionId);
         });
     }
-    // Get All Nutrition Records (Admin only)
+    getNutritionById(nutritionId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield NutritionRepo_1.nutritionRepository.findOne({ where: { id: nutritionId }, relations: ["meals", "user"] });
+        });
+    }
     getAllNutrition() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield NutritionRepo_1.nutritionRepository.find({ relations: ['user'] });
+            return yield NutritionRepo_1.nutritionRepository.find({ relations: ["meals", "user"] });
+        });
+    }
+    getUserNutrition(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield NutritionRepo_1.nutritionRepository.find({ where: { user: { id: userId } }, relations: ["user"] });
         });
     }
 }

@@ -10,122 +10,91 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MealController = void 0;
-const MealService_1 = require("../services/MealService");
 class MealController {
-    constructor() {
-        this.mealService = new MealService_1.MealService();
+    constructor(mealService) {
+        this.mealService = mealService;
     }
-    //to log meals for specific user
-    logMeal(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const userId = parseInt(req.params.userId);
-                const mealData = req.body;
-                const loggedMeal = yield this.mealService.logMeal(userId, mealData);
-                res.status(201).send(loggedMeal);
-            }
-            catch (error) {
-                console.error("Error logging meal:", error);
-                res.status(500).send({ message: "An error occurred while logging the meal.", error });
-            }
-        });
-    }
-    getMeals(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const userId = parseInt(req.params.userId);
-                const meals = yield this.mealService.getMeals(userId);
-                res.status(200).json(meals);
-            }
-            catch (error) {
-                console.error("Error fetching meals:", error);
-                res.status(500).json({ error: "Internal Server Error" });
-            }
-        });
-    }
-    //creates meal into system definition
-    createMeal(req, res) {
+    addMeal(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const mealData = req.body;
-                const createdMeal = yield this.mealService.createMeal(mealData);
-                res.status(201).send(createdMeal);
+                const meal = yield this.mealService.addMeal(mealData);
+                res.status(201).json(meal);
             }
             catch (error) {
-                console.error("Error creating meal:", error);
-                res.status(500).send({ message: "An error occurred while creating the meal.", error });
+                res.status(error.status || 500).json({ message: error.message });
             }
         });
     }
     updateMeal(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const mealId = parseInt(req.params.mealId);
+                const mealId = parseInt(req.params.id, 10);
                 const mealData = req.body;
-                const updatedMeal = yield this.mealService.updateMeal(mealId, mealData);
-                if (!updatedMeal) {
-                    res.status(404).json({ message: "Meal not found." });
-                    return;
-                }
-                res.status(200).json(updatedMeal);
+                const meal = yield this.mealService.updateMeal(mealId, mealData);
+                res.status(200).json(meal);
             }
             catch (error) {
-                console.error("Error updating meal:", error);
-                res.status(500).json({ message: "An error occurred while updating the meal.", error });
+                res.status(error.status || 500).json({ message: error.message });
             }
         });
     }
     deleteMeal(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userId = parseInt(req.params.userId);
-                const mealId = parseInt(req.params.mealId);
-                yield this.mealService.deleteMeal(userId, mealId);
-                res.status(200).json({ message: "Meal successfully deleted" });
+                const mealId = parseInt(req.params.id, 10);
+                yield this.mealService.deleteMeal(mealId);
+                res.status(200).json({ message: 'Meal deleted successfully' });
             }
             catch (error) {
-                console.error("Error deleting meal:", error);
-                res.status(500).json({ error: "Failed to delete meal" });
+                res.status(error.status || 500).json({ message: error.message });
             }
         });
     }
-    getMealRecommendations(req, res) {
+    getMealById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userId = parseInt(req.params.userId);
-                const recommendations = yield this.mealService.getMealRecommendations(userId);
-                res.status(200).json(recommendations);
+                const mealId = parseInt(req.params.id, 10);
+                const meal = yield this.mealService.getMealById(mealId);
+                res.status(200).json(meal);
             }
             catch (error) {
-                console.error("Error fetching meal recommendations:", error);
-                res.status(500).json({ error: "Internal Server Error" });
+                res.status(error.status || 500).json({ message: error.message });
             }
         });
     }
-    getTotalMealsAvailable(req, res) {
+    getAllMeals(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const totalMeals = yield this.mealService.getTotalMealsAvailable();
-                res.status(200).json({ totalMeals });
+                const meals = yield this.mealService.getAllMeals();
+                res.status(200).json(meals);
             }
             catch (error) {
-                console.error("Error fetching total meals available:", error);
-                res.status(500).json({ error: "Internal Server Error" });
+                res.status(error.status || 500).json({ message: error.message });
             }
         });
     }
-    rateMeal(req, res) {
+    getUserMeals(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userId = parseInt(req.params.userId);
-                const mealId = parseInt(req.params.mealId);
-                const { rating } = req.body;
-                yield this.mealService.rateMeal(userId, mealId, rating);
-                res.status(200).json({ message: "Meal rated successfully" });
+                const userId = parseInt(req.params.userId, 10);
+                const meals = yield this.mealService.getUserMeals(userId);
+                res.status(200).json(meals);
             }
             catch (error) {
-                console.error("Error rating meal:", error);
-                res.status(500).json({ error: "Failed to rate meal" });
+                res.status(error.status || 500).json({ message: error.message });
+            }
+        });
+    }
+    getUserLikedMeals(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = parseInt(req.params.userId, 10);
+                const meals = yield this.mealService.getUserLikedMeals(userId);
+                res.status(200).json(meals);
+            }
+            catch (error) {
+                res.status(error.status || 500).json({ message: error.message });
             }
         });
     }

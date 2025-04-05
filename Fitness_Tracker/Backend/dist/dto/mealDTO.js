@@ -11,48 +11,76 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MealDTO = void 0;
 const class_validator_1 = require("class-validator");
+const nutritionDTO_1 = require("./nutritionDTO");
+const User_1 = require("../entities/User");
+const class_transformer_1 = require("class-transformer");
 class MealDTO {
 }
 exports.MealDTO = MealDTO;
 __decorate([
-    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], MealDTO.prototype, "id", void 0);
+__decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(1, 100) // Validate length between 1 and 100 characters for strings
-    ,
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], MealDTO.prototype, "name", void 0);
 __decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], MealDTO.prototype, "mealtype", void 0);
+__decorate([
     (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Min)(0) // Minimum allowed value for calories
-    ,
-    (0, class_validator_1.Max)(10000) // Maximum allowed value for calories
-    ,
     __metadata("design:type", Number)
 ], MealDTO.prototype, "calories", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Min)(0) // Minimum allowed value for protein
-    ,
-    (0, class_validator_1.Max)(1000) // Maximum allowed value for protein
-    ,
     __metadata("design:type", Number)
 ], MealDTO.prototype, "protein", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Min)(0) // Minimum allowed value for carbs
-    ,
-    (0, class_validator_1.Max)(1000) // Maximum allowed value for carbs
-    ,
     __metadata("design:type", Number)
 ], MealDTO.prototype, "carbs", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Min)(0) // Minimum allowed value for fats
-    ,
-    (0, class_validator_1.Max)(1000) // Maximum allowed value for fats
-    ,
     __metadata("design:type", Number)
 ], MealDTO.prototype, "fats", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], MealDTO.prototype, "rating", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], MealDTO.prototype, "liked", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], MealDTO.prototype, "available", void 0);
+__decorate([
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => nutritionDTO_1.NutritionDTO),
+    __metadata("design:type", nutritionDTO_1.NutritionDTO)
+], MealDTO.prototype, "nutrition", void 0);
+__decorate([
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => User_1.User),
+    __metadata("design:type", User_1.User)
+], MealDTO.prototype, "users", void 0);
+// import { User } from "../entities/User";
+// import { NutritionDTO } from "./nutritionDTO";
+// export interface MealDTO {
+//     id: number;
+//     name?: string;
+//     mealtype: string;
+//     calories: number;
+//     protein?: number;
+//     carbs?: number;
+//     fats?: number;
+//     rating?: number;
+//     available: boolean;
+//     liked?: boolean;
+//     nutrition: NutritionDTO;
+//     users: User;
+//   }

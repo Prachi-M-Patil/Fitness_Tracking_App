@@ -8,6 +8,7 @@ import { Nutrition } from "./Nutrition";
 
 @Entity({name: 'User_Ft_Tracker'})
 export class User{
+ 
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -22,6 +23,9 @@ export class User{
 
     @Column()
     mobile : number;
+
+    @Column({ default: true })
+    active: boolean; 
 
     @Column({ default: 'user' })
     role: 'user'| 'admin';
@@ -38,11 +42,11 @@ export class User{
     @OneToMany(()=> Activity, activity => activity.user)
     activities: Activity[];
 
-    @ManyToMany(() => Meal, meal => meal.users)
+    @OneToMany(() => Meal, meal => meal.users,  { cascade:true } )
     meals: Meal[];
 
-    @OneToOne(() => Nutrition, { cascade: true }) // One-to-one relationship with Nutrition
-    nutrition: Nutrition;
+    @OneToMany(() => Nutrition, (nutrition)=> nutrition.user) // One-to-one relationship with Nutrition
+    nutrition: Nutrition[];
 
     // @ManyToMany(()=> User)
     // @JoinTable()

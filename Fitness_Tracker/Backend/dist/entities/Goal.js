@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Goal = void 0;
 const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
+const Activity_1 = require("./Activity");
 let Goal = class Goal {
 };
 exports.Goal = Goal;
@@ -47,6 +48,10 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => User_1.User, user => user.goals),
     __metadata("design:type", User_1.User)
 ], Goal.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Activity_1.Activity, activity => activity.goal),
+    __metadata("design:type", Array)
+], Goal.prototype, "activities", void 0);
 exports.Goal = Goal = __decorate([
     (0, typeorm_1.Entity)({ name: 'Goal_Ft_Tracker' })
 ], Goal);

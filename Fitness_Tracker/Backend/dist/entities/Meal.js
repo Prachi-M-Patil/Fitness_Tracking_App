@@ -25,6 +25,10 @@ __decorate([
     __metadata("design:type", String)
 ], Meal.prototype, "name", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Meal.prototype, "mealtype", void 0);
+__decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], Meal.prototype, "calories", void 0);
@@ -45,14 +49,22 @@ __decorate([
     __metadata("design:type", Number)
 ], Meal.prototype, "rating", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Nutrition_1.Nutrition, nutrition => nutrition.meals),
+    (0, typeorm_1.Column)({ default: false }),
+    __metadata("design:type", Boolean)
+], Meal.prototype, "liked", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: true }),
+    __metadata("design:type", Boolean)
+], Meal.prototype, "available", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Nutrition_1.Nutrition, nutrition => nutrition.meals),
     __metadata("design:type", Nutrition_1.Nutrition)
 ], Meal.prototype, "nutrition", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => User_1.User, users => users.meals, { cascade: true }),
-    (0, typeorm_1.JoinTable)() // Creates the join table for the relationship
+    (0, typeorm_1.ManyToOne)(() => User_1.User, users => users.meals, { onDelete: "CASCADE" })
+    // @JoinColumn()// Creates the join table for the relationship
     ,
-    __metadata("design:type", Array)
+    __metadata("design:type", User_1.User)
 ], Meal.prototype, "users", void 0);
 exports.Meal = Meal = __decorate([
     (0, typeorm_1.Entity)({ name: 'Meal_Ft_Tracker' })

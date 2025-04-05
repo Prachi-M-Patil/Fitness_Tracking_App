@@ -37,11 +37,11 @@ __decorate([
     __metadata("design:type", Number)
 ], Nutrition.prototype, "dailyFats", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => Meal_1.Meal, meal => meal.nutrition),
+    (0, typeorm_1.ManyToOne)(() => Meal_1.Meal, meals => meals.nutrition, { onDelete: "CASCADE" }),
     __metadata("design:type", Array)
 ], Nutrition.prototype, "meals", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => User_1.User, user => user.nutrition),
+    (0, typeorm_1.ManyToOne)(() => User_1.User, user => user.nutrition),
     __metadata("design:type", User_1.User)
 ], Nutrition.prototype, "user", void 0);
 exports.Nutrition = Nutrition = __decorate([

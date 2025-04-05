@@ -57,5 +57,10 @@ class WorkoutService {
             return yield WorkoutRepo_1.workoutRepository.findOneBy({ id: workoutId });
         });
     }
+    getAllWorkouts() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield WorkoutRepo_1.workoutRepository.find({ relations: ["user"] });
+        });
+    }
 }
 exports.WorkoutService = WorkoutService;

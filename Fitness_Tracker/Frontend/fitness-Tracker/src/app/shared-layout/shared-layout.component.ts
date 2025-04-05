@@ -7,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './shared-layout.component.css'
 })
 export class SharedLayoutComponent {
+  isSidebarOpen: boolean = false;
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
 
 }

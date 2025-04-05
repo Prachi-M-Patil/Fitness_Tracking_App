@@ -1,6 +1,17 @@
 <div class="dashboard-container">
+    <h1>Fitness Tracker</h1>
+    <p>Your ultimate companion for tracking workouts, meals, and progress towards your fitness goals.</p>
     <h2>Dashboard</h2>
-    <button (click)="navigateToLogin('user')" class="btn btn-primary">User Dashboard</button>
-    <button (click)="navigateToLogin('admin')" class="btn btn-secondary">Admin Dashboard</button>
+    <div class="card-container">
+        <div class="card">
+            <h3>User Login</h3>
+            <p>Access your personal fitness tracker, view your progress, and manage your workouts and meals.</p>
+            <button (click)="navigateToLogin('user')" class="btn btn-primary">User Login</button>
+        </div>
+        <div class="card">
+            <h3>Admin Login</h3>
+            <p>Manage user accounts, oversee progress, and maintain the overall system settings.</p>
+            <button (click)="navigateToLogin('admin')" class="btn btn-secondary">Admin Login</button>
+        </div>
+    </div>
 </div>
-  

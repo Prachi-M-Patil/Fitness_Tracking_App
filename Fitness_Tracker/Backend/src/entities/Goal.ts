@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
+import { Activity } from "./Activity";
 
 @Entity({name: 'Goal_Ft_Tracker'})
 export class Goal{
@@ -26,5 +27,9 @@ export class Goal{
 
     @ManyToOne(()=> User, user => user.goals)
     user: User;
+
+    @OneToMany(() => Activity, activity => activity.goal)
+    activities: Activity[];
+
 
 }

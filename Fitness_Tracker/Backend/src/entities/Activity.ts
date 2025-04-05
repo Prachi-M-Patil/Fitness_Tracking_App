@@ -7,13 +7,16 @@ export class Activity{
     id: number;
 
     @Column()
-    type: string;//running, cycling, swimming
+    activityType: string;//running, cycling, swimming
 
     @Column()
-    duration: number;
+    duration: number;//in minutes
 
     @Column()
-    distance: number;
+    distance: number;//in km
+
+    @Column()
+    achieved: boolean;
 
     @Column()
     date: Date;

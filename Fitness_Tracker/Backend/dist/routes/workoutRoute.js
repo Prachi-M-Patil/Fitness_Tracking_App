@@ -8,5 +8,5 @@ const workoutcontroller = new workoutController_1.workoutController();
 router.post("/logworkout", (0, authMiddleware_1.authMiddleware)(['admin', 'user']), (req, res) => workoutcontroller.logWorkout(req, res));
 router.post("/getworkouts/", (0, authMiddleware_1.authMiddleware)(['user', 'admin']), (req, res) => workoutcontroller.getWorkouts(req, res));
 router.put('/editworkout/:workoutId', (0, authMiddleware_1.authMiddleware)(['user', 'admin']), (req, res) => workoutcontroller.editWorkout(req, res));
-// router.delete('/workouts/:workoutId', (req, res) => workoutController.deleteWorkout(req, res));
+// router.delete('/workouts/:workoutId', (req, res) => workoutcontroller.(req, res));
 exports.default = router;

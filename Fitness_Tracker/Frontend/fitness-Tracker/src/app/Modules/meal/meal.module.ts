@@ -2,15 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MealRoutingModule } from './meal-routing.module';
-import { ViewMealsComponent } from './view-meal/view-meal.component';
-import { LogMealComponent } from './log-meal/log-meal.component';
+import { MealListComponent } from './meal-list/meal-list.component';
+import { MealDetailsComponent } from './meal-details/meal-details.component';
+import { MealService } from '../../services/meals.service';
+import { MealAddComponent } from './meal-add/meal-add.component';
+import { MealEditComponent } from './meal-edit/meal-edit.component';
+import { MealDeleteComponent } from './meal-delete/meal-delete.component';
+
 
 
 
 @NgModule({
   declarations: [
-    ViewMealsComponent,
-    LogMealComponent
+     MealListComponent,
+     MealDetailsComponent,
+     MealAddComponent,
+     MealEditComponent,
+     MealDeleteComponent
   ],
   imports: [
     CommonModule,
@@ -18,8 +26,14 @@ import { LogMealComponent } from './log-meal/log-meal.component';
     MealRoutingModule
   ],
   exports:[
-    ViewMealsComponent,
-    LogMealComponent
+    MealListComponent,
+    MealDetailsComponent,
+    MealAddComponent,
+    MealEditComponent,
+    MealDeleteComponent
+  ],
+  providers:[
+    MealService
   ]
 })
 export class MealModule { }
