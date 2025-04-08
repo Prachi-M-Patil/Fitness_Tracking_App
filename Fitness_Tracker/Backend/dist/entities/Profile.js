@@ -44,10 +44,14 @@ __decorate([
     __metadata("design:type", String)
 ], Profile.prototype, "fitnessLevel", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Profile.prototype, "profilePicture", void 0);
+__decorate([
     (0, typeorm_1.OneToOne)(() => User_1.User, user => user.profile),
     (0, typeorm_1.JoinColumn)({ name: "id" }),
     __metadata("design:type", User_1.User)
 ], Profile.prototype, "user", void 0);
 exports.Profile = Profile = __decorate([
-    (0, typeorm_1.Entity)({ name: 'Profile_Ft_Tracker' })
+    (0, typeorm_1.Entity)({ name: 'Profiles_Ft_Tracker' })
 ], Profile);

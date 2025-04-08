@@ -10,6 +10,10 @@ export class ProfileDTO {
     name?: string;
 
     @IsOptional()
+    @IsString()
+    profilePicture?: string;
+
+    @IsOptional()
     @IsNumber()
     @IsPositive()
     @Min(0)

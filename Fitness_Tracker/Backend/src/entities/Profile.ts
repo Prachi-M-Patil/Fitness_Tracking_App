@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
 
-@Entity({name: 'Profile_Ft_Tracker'})
+@Entity({name: 'Profiles_Ft_Tracker'})
 export class Profile{
     @PrimaryGeneratedColumn()
     id: number;
@@ -23,6 +23,9 @@ export class Profile{
 
     @Column()
     fitnessLevel : string;
+
+    @Column({nullable: true})
+    profilePicture: string;
 
     @OneToOne(()=> User, user => user.profile)
     @JoinColumn({name: "id"})

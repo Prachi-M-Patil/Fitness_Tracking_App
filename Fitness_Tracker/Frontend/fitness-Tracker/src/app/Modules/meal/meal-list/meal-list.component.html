@@ -4,22 +4,74 @@
   <!-- Search Container -->
   <div class="search-container">
     <input
-  type="text"
-  [(ngModel)]="searchTerm"
-  (input)="onSearchTermChange(getInputValue($event))"
-  placeholder="Search meals by name, type, or calories..."
-/>
-
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchTermChange(getInputValue($event))"
+      placeholder="Search meals by name, type, or calories..."
+    />
     <button (click)="searchMeals(searchTerm)">Search</button>
   </div>
 
   <!-- Display the Table if Results are Available -->
   <div *ngIf="results.length > 0">
-    <app-generic-table
-      [columns]="mealColumns"
-      [data]="results"
-      [actions]="actionTemplate">
-    </app-generic-table>
+    <table class="meal-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Calories</th>
+          <th>Like</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let meal of results">
+          <!-- Meal Data Columns -->
+          <td>{{ meal.id }}</td>
+          <td>{{ meal.name }}</td>
+          <td>{{ meal.mealtype }}</td>
+          <td>{{ meal.calories }}</td>
+
+          <!-- Like Column -->
+          <td>
+            <button
+              class="btn-like"
+              (click)="toggleLike(meal)"
+              title="Toggle Like"
+            >
+              <i class="fas fa-heart" [ngClass]="{ 'active': meal.liked }"></i>
+            </button>
+            <span class="likes-count">{{ meal.likesCount || 0 }}</span>
+          </td>
+
+          <!-- Actions Column (Template for View/Edit/Delete) -->
+          <td>
+            <button
+              class="btn-view"
+              [routerLink]="['/meal-details', meal.id]"
+              title="View Details"
+            >
+              <i class="fas fa-eye"></i>
+            </button>
+            <button
+              class="btn-edit"
+              [routerLink]="['/meal-edit', meal.id]"
+              title="Edit Meal"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
+            <button
+              class="btn-delete"
+              (click)="confirmDelete(meal.id)"
+              title="Delete Meal"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- Show Message if No Results Found -->
@@ -29,41 +81,7 @@
 
   <!-- Add Meal Button -->
   <button class="btn-add-meal" [routerLink]="['/add-meal']">Add Meal</button>
-
-  <!-- Action Template -->
-  <ng-template #actionTemplate let-meal>
-    <button
-      class="btn-like"
-      (click)="toggleLike(meal)"
-      title="Toggle Like"
-    >
-      <i class="fas fa-heart" [ngClass]="{ 'active': meal.isActive }"></i>
-    </button>
-
-    <button
-      class="btn-view"
-      [routerLink]="['/meal-details', meal.id]"
-      title="View Details"
-    >
-      <i class="fas fa-eye"></i>
-    </button>
-    <button
-      class="btn-edit"
-      [routerLink]="['/meal-edit', meal.id]"
-      title="Edit Meal"
-    >
-      <i class="fas fa-edit"></i>
-    </button>
-    <button
-      class="btn-delete"
-      (click)="confirmDelete(meal.id)"
-      title="Delete Meal"
-    >
-      <i class="fas fa-trash"></i>
-    </button>
-  </ng-template>
 </div>
-
 
 
 

@@ -46,12 +46,19 @@ export class MealService {
         const meals = await mealRepository.find({ relations: ["users", "nutrition"] });
         console.log("meals",meals);
 
-        // Calculate total likes for each meal
         for (const meal of meals) {
-            meal.likesCount = meal.users ? meal.users.length : 0 || 0;
+            meal.likesCount = meal.users?.length || 0;
         }
-
         return meals;
+    } catch (error) {
+        throw new Error(`Failed to fetch all meals: ${error.message}`);
+
+        // // Calculate total likes for each meal
+        // for (const meal of meals) {
+        //     meal.likesCount = meal.users ? meal.users.length : 0 || 0;
+        // }
+
+        // return meals;
     }
 
     // Fetch meals for a specific user

@@ -81,5 +81,44 @@ class ProfileController {
             }
         });
     }
+    uploadProfilePicture(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const userId = parseInt(req.params.userId, 10);
+            const filePath = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
+            if (!filePath) {
+                res.status(400).json({ message: "No file uploaded" });
+                return;
+            }
+            try {
+                // Full file path to serve the image
+                const filePathWithBaseUrl = `http://localhost:3300/uploads/${req.file.filename}`;
+                // profilePicture = filePathWithBaseUrl;
+                // Save the file path in the database via the service
+                const updatedProfile = yield this.profileService.uploadProfilePicture(userId, filePathWithBaseUrl);
+                if (!updatedProfile) {
+                    res.status(404).json({ message: "Profile not found" });
+                    return;
+                }
+                res.status(200).json({
+                    message: "Profile picture uploaded successfully",
+                    profile: updatedProfile,
+                });
+            }
+            catch (error) {
+                res.status(500).json({ message: "Error uploading profile picture", error });
+            }
+        });
+    }
 }
 exports.ProfileController = ProfileController;
+//     const updatedProfile = await this.profileService.uploadProfilePicture(userId, filePath);
+//     if (!updatedProfile) {
+//         res.status(404).json({ message: "Profile not found" });
+//         return;
+//     }
+//     res.status(200).json({
+//         message: "Profile picture uploaded successfully",
+//         profile: updatedProfile,
+//     });
+// }

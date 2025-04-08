@@ -17,7 +17,8 @@ export interface MealDTO {
   available: boolean; // Whether the meal is available for purchase
   likesCount: number; // Total number of likes
   nutritionId?: number; // Optional: Links to a nutrition entry
-  userId?: number; // Optional: Links to a specific user
+  userId?: number; 
+  isHeartActive?: boolean// Optional: Links to a specific user
 }
 
 @Injectable({
@@ -63,10 +64,40 @@ export class MealService {
     );
   }
 
+
+
   // **6. Toggle like for a meal**
   toggleMealLike(mealId: number, userId: number): Observable<MealDTO> {
     return this.http.post<MealDTO>(`${this.apiUrl}/${mealId}/toggle-like`, { userId }).pipe(
       catchError((error) => this.handleError(error, `Error toggling like status for meal ID ${mealId}`))
+    );
+  }
+
+   // **2. Rate a meal**
+   rateMeal(mealId: number, userId: number, rating: number): Observable<MealDTO> {
+    return this.http.post<MealDTO>(`${this.apiUrl}/${mealId}/rate`, { userId, rating }).pipe(
+      catchError((error) => this.handleError(error, `Error rating meal with ID ${mealId}`))
+    );
+  }
+
+  // **3. Get user-specific meals**
+  getUserMeals(userId: number): Observable<MealDTO[]> {
+    return this.http.get<MealDTO[]>(`${this.apiUrl}/user/${userId}`).pipe(
+      catchError((error) => this.handleError(error, 'Error fetching user meals'))
+    );
+  }
+
+  // **4. Get liked meals by the user**
+  getUserLikedMeals(userId: number): Observable<MealDTO[]> {
+    return this.http.get<MealDTO[]>(`${this.apiUrl}/user/${userId}/liked`).pipe(
+      catchError((error) => this.handleError(error, 'Error fetching user liked meals'))
+    );
+  }
+
+  // **5. Log meal nutrition**
+  logMealNutrition(mealId: number, userId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${mealId}/log-nutrition`, { userId }).pipe(
+      catchError((error) => this.handleError(error, `Error logging nutrition for meal ID ${mealId}`))
     );
   }
 
@@ -87,6 +118,8 @@ export class MealService {
     return throwError(() => new Error(error.message || 'Unknown error occurred.'));
   }
 }
+
+
 
 
 // import { Injectable } from '@angular/core';

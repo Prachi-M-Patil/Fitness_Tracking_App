@@ -11,6 +11,7 @@ export class profileService{
             gender: profileData.gender,
             weight: profileData.weight,
             height: profileData.height,
+            profilePicture: profileData.profilePicture, // Include profile picture path
             fitnessLevel: profileData.fitnessLevel,
             user: profileData.user // Assuming there's a user relation
         });
@@ -25,9 +26,24 @@ export class profileService{
             gender: newProfile.gender,
             weight: newProfile.weight,
             height: newProfile.height,
+            profilePicture: newProfile.profilePicture,
             fitnessLevel: newProfile.fitnessLevel
         };
         return profileDTO;
+    }
+
+    async uploadProfilePicture(userId: number, filePath: string): Promise<ProfileDTO | null> {
+        const profile = await ProfileRepository.findOne({ where: { user: { id: userId } } });
+
+        if (!profile) {
+            return null; // Profile not found
+        }
+
+        // Update the profile with the uploaded picture path
+        profile.profilePicture = filePath;
+        const updatedProfile = await ProfileRepository.save(profile);
+
+        return this.createProfile(updatedProfile); // Return updated profile as DTO
     }
 
     async getProfile(userId: number): Promise<ProfileDTO | null> {
@@ -45,6 +61,7 @@ export class profileService{
             gender: profile.gender,
             weight: profile.weight,
             height: profile.height,
+            profilePicture: profile.profilePicture,
             fitnessLevel: profile.fitnessLevel
         };
         return profileDTO;
@@ -74,6 +91,7 @@ export class profileService{
             gender: updatedProfile.gender,
             weight: updatedProfile.weight,
             height: updatedProfile.height,
+            profilePicture: updatedProfile.profilePicture,
             fitnessLevel: updatedProfile.fitnessLevel
         };
     

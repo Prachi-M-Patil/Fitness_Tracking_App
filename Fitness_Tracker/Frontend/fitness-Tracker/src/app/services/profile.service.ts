@@ -11,6 +11,7 @@ export interface Profile {
   weight: number;
   height: number;
   fitnessLevel: string;
+  profilePicture?: File | null;
   user?: { id: number };
 }
 
@@ -52,6 +53,14 @@ export class ProfileService {
     );
   }
 
+
+  uploadProfilePicture(userId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('profilePicture', file);
+  
+    return this.http.post(`${this.baseUrl}/upload-profile-picture/${userId}`, formData);
+  }
+  
 
   // Update an existing profile
   // updateProfile(userId: number, profile: Partial<Profile>): Observable<Profile> {

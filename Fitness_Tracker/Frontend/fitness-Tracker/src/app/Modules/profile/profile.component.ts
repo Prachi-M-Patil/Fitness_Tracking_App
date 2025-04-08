@@ -24,13 +24,21 @@ export class ProfileComponent implements OnInit {
 
   userId: number = 0; // Replace with dynamic user ID (e.g., from login)
   message: string = '';
-
+  selectedFile: File | null = null;
+  
   constructor(
     private profileService: ProfileService,
     private authService: AuthService,
     private router: Router
   ) {
     this.profile$ = this.profileService.profile$;
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
   }
 
   ngOnInit(): void {

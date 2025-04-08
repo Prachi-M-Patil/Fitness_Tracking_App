@@ -77,19 +77,12 @@ export class MealListComponent implements OnInit {
   }
   
   toggleLike(meal: MealDTO): void {
-    const userId = this.authService.getUserId(); // Replace with the logged-in user's ID
+    const userId = 1; // Replace with actual logged-in user ID
 
-     const heartIcon = document.querySelector(`.btn-like i.fa-heart`);
-  
-  // Toggle the heart's color
-  if (heartIcon) {
-    heartIcon.classList.toggle('active');
-  }
     this.mealService.toggleMealLike(meal.id, userId).subscribe(
       (updatedMeal) => {
-        // Update the meal's liked status and likesCount dynamically
         meal.liked = updatedMeal.liked;
-        meal.likesCount = updatedMeal.likesCount;
+        meal.likesCount = updatedMeal.likesCount; // Update likes count dynamically
       },
       (error) => {
         console.error('Error toggling like:', error);

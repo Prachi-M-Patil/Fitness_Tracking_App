@@ -12,7 +12,7 @@ import MealRoutes from "./routes/MealRoutes";
 import NutritionRoutes from "./routes/NutritionRoutes";
 import activityRoutes from "./routes/activityRoutes";
 import errorHandler from "./middlewares/errorHandler";
-
+import * as path from 'path';
 
 const app = express();
 
@@ -27,6 +27,7 @@ app.use('/api/meals', MealRoutes);
 app.use('/api/nutritions', NutritionRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('api/activity', activityRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'src/uploads')));
 
 
 AppDataSource.initialize()

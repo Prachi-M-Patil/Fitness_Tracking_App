@@ -21,6 +21,7 @@ class profileService {
                 gender: profileData.gender,
                 weight: profileData.weight,
                 height: profileData.height,
+                profilePicture: profileData.profilePicture, // Include profile picture path
                 fitnessLevel: profileData.fitnessLevel,
                 user: profileData.user // Assuming there's a user relation
             });
@@ -33,9 +34,22 @@ class profileService {
                 gender: newProfile.gender,
                 weight: newProfile.weight,
                 height: newProfile.height,
+                profilePicture: newProfile.profilePicture,
                 fitnessLevel: newProfile.fitnessLevel
             };
             return profileDTO;
+        });
+    }
+    uploadProfilePicture(userId, filePath) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const profile = yield ProfileRepo_1.ProfileRepository.findOne({ where: { user: { id: userId } } });
+            if (!profile) {
+                return null; // Profile not found
+            }
+            // Update the profile with the uploaded picture path
+            profile.profilePicture = filePath;
+            const updatedProfile = yield ProfileRepo_1.ProfileRepository.save(profile);
+            return this.createProfile(updatedProfile); // Return updated profile as DTO
         });
     }
     getProfile(userId) {
@@ -53,6 +67,7 @@ class profileService {
                 gender: profile.gender,
                 weight: profile.weight,
                 height: profile.height,
+                profilePicture: profile.profilePicture,
                 fitnessLevel: profile.fitnessLevel
             };
             return profileDTO;
@@ -77,6 +92,7 @@ class profileService {
                 gender: updatedProfile.gender,
                 weight: updatedProfile.weight,
                 height: updatedProfile.height,
+                profilePicture: updatedProfile.profilePicture,
                 fitnessLevel: updatedProfile.fitnessLevel
             };
             return profileDTO;

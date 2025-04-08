@@ -1,7 +1,13 @@
 <div class="profile-container">
   <h2>User Profile</h2>
   <div *ngIf="message" class="message">{{ message }}</div>
-  <form (ngSubmit)="saveProfile()" onsubmi>
+  <form (ngSubmit)="saveProfile()" >
+
+    <div class="form-group">
+    <label for="profilePicture">Profile Picture</label>
+    <input type="file" id="profilePicture" (change)="onFileSelected($event)" />
+    </div>
+
     <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" id="name" [(ngModel)]="profile.name" name="name" required />

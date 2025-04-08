@@ -53,14 +53,22 @@ class MealService {
     // Fetch all meals with total likes calculated
     getAllMeals() {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             const meals = yield mealRepo_1.mealRepository.find({ relations: ["users", "nutrition"] });
             console.log("meals", meals);
-            // Calculate total likes for each meal
             for (const meal of meals) {
-                meal.likesCount = meal.users ? meal.users.length : 0 || 0;
+                meal.likesCount = ((_a = meal.users) === null || _a === void 0 ? void 0 : _a.length) || 0;
             }
             return meals;
         });
+    }
+    catch(error) {
+        throw new Error(`Failed to fetch all meals: ${error.message}`);
+        // // Calculate total likes for each meal
+        // for (const meal of meals) {
+        //     meal.likesCount = meal.users ? meal.users.length : 0 || 0;
+        // }
+        // return meals;
     }
     // Fetch meals for a specific user
     getUserMeals(userId) {

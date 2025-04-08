@@ -41,28 +41,84 @@
 
 /* Like Button Styling */
 /* Like Button Styling */
+.meal-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.meal-table th,
+.meal-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.meal-table th {
+  background-color: #f8f9fa;
+  text-align: left;
+}
+
 .btn-like {
-  background-color: transparent;
+  background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
 }
 
-/* Default Heart (Gray) */
-.btn-like i.fa-heart {
-  color: #ccc; /* Neutral gray heart */
+.btn-like i {
+  color: #ccc; /* Default gray color for inactive state */
   font-size: 20px;
-  transition: color 0.3s ease; /* Smooth transition for color change */
+  transition: color 0.3s ease;
 }
 
-/* Active Heart (Red) */
-.btn-like i.fa-heart.active {
-  color: #ff476f; /* Red heart when toggled */
+.btn-like i.active {
+  color: #ff476f; /* Red color for active state */
 }
 
-/* Hover Effects */
-.btn-like i.fa-heart:hover {
-  color: #ff204d; /* Darker red on hover */
+.btn-like:hover i {
+  color: #ff204d; /* Darker red color on hover */
+}
+
+.likes-count {
+  margin-left: 8px;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.btn-view,
+.btn-edit,
+.btn-delete {
+  padding: 5px 10px;
+  margin-right: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-view:hover {
+  background-color: #0056b3;
+}
+
+.btn-edit:hover {
+  background-color: #ffc107;
+}
+
+.btn-delete:hover {
+  background-color: #dc3545;
+}
+
+.btn-add-meal {
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-add-meal:hover {
+  background-color: #218838;
 }
 
 
