@@ -14,7 +14,7 @@ export class RegisterComponent {
     password: '',
     mobile: '',
     email: '',
-    role: ''
+    role: 'user'
   };
 
   message: string | undefined;

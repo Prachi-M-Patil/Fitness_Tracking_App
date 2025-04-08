@@ -11,10 +11,12 @@ import adminRoutes from "./routes/adminRoutes";
 import MealRoutes from "./routes/MealRoutes";
 import NutritionRoutes from "./routes/NutritionRoutes";
 import activityRoutes from "./routes/activityRoutes";
+import errorHandler from "./middlewares/errorHandler";
 
 
 const app = express();
 
+app.use(errorHandler);
 app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
@@ -22,7 +24,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/workout', workoutRoute);
 app.use('/api/goals', goalRoutes);
 app.use('/api/meals', MealRoutes);
-app.use('api/nutritions', NutritionRoutes);
+app.use('/api/nutritions', NutritionRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('api/activity', activityRoutes);
 

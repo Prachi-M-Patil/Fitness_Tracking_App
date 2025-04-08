@@ -16,7 +16,9 @@ const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
 const MealRoutes_1 = __importDefault(require("./routes/MealRoutes"));
 const NutritionRoutes_1 = __importDefault(require("./routes/NutritionRoutes"));
 const activityRoutes_1 = __importDefault(require("./routes/activityRoutes"));
+const errorHandler_1 = __importDefault(require("./middlewares/errorHandler"));
 const app = (0, express_1.default)();
+app.use(errorHandler_1.default);
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use('/api/auth', authRoutes_1.default);
@@ -24,7 +26,7 @@ app.use('/api/profile', profileRoutes_1.default);
 app.use('/api/workout', workoutRoute_1.default);
 app.use('/api/goals', goalRoutes_1.default);
 app.use('/api/meals', MealRoutes_1.default);
-app.use('api/nutritions', NutritionRoutes_1.default);
+app.use('/api/nutritions', NutritionRoutes_1.default);
 app.use('/api/admin', adminRoutes_1.default);
 app.use('api/activity', activityRoutes_1.default);
 database_1.AppDataSource.initialize()

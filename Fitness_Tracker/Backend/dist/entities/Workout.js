@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Workout = void 0;
 const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
+const Goal_1 = require("./Goal");
 let Workout = class Workout {
 };
 exports.Workout = Workout;
@@ -32,6 +33,10 @@ __decorate([
     __metadata("design:type", Date)
 ], Workout.prototype, "date", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ default: false }),
+    __metadata("design:type", Boolean)
+], Workout.prototype, "completed", void 0);
+__decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], Workout.prototype, "caloriesBurned", void 0);
@@ -39,6 +44,10 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => User_1.User, user => user.workouts),
     __metadata("design:type", User_1.User)
 ], Workout.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => Goal_1.Goal, goal => goal.workouts),
+    __metadata("design:type", Array)
+], Workout.prototype, "goals", void 0);
 exports.Workout = Workout = __decorate([
     (0, typeorm_1.Entity)({ name: 'Workout_Ft_Tracker' })
 ], Workout);

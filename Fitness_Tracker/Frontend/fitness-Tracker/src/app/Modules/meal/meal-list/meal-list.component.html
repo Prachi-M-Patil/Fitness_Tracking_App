@@ -1,27 +1,118 @@
-<h2>Meal List</h2>
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Calories</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let meal of meals">
-      <td>{{ meal.id }}</td>
-      <td>{{ meal.name }}</td>
-      <td>{{ meal.mealtype }}</td>
-      <td>{{ meal.calories }}</td>
-      <td>
-        <button [routerLink]="['/meal-details', meal.id]">View</button>
-        <button [routerLink]="['/meal-edit', meal.id]">Edit</button>
-        <button [routerLink]="['/meal-delete', meal.id ]">Delete</button>
-        <!-- <button [routerLink]="['/add-meal' , User.id]">add meal</button> -->
-      </td>
-    </tr>
-  </tbody>
-</table>
-<button *ngIf="getUserRole()" [routerLink]="['/add-meal']">Add meal</button>
+<div class="meal-list-container">
+  <h2>Meal List</h2>
+
+  <!-- Search Container -->
+  <div class="search-container">
+    <input
+  type="text"
+  [(ngModel)]="searchTerm"
+  (input)="onSearchTermChange(getInputValue($event))"
+  placeholder="Search meals by name, type, or calories..."
+/>
+
+    <button (click)="searchMeals(searchTerm)">Search</button>
+  </div>
+
+  <!-- Display the Table if Results are Available -->
+  <div *ngIf="results.length > 0">
+    <app-generic-table
+      [columns]="mealColumns"
+      [data]="results"
+      [actions]="actionTemplate">
+    </app-generic-table>
+  </div>
+
+  <!-- Show Message if No Results Found -->
+  <div *ngIf="results.length === 0">
+    <p>No meals found.</p>
+  </div>
+
+  <!-- Add Meal Button -->
+  <button class="btn-add-meal" [routerLink]="['/add-meal']">Add Meal</button>
+
+  <!-- Action Template -->
+  <ng-template #actionTemplate let-meal>
+    <button
+      class="btn-like"
+      (click)="toggleLike(meal)"
+      title="Toggle Like"
+    >
+      <i class="fas fa-heart" [ngClass]="{ 'active': meal.isActive }"></i>
+    </button>
+
+    <button
+      class="btn-view"
+      [routerLink]="['/meal-details', meal.id]"
+      title="View Details"
+    >
+      <i class="fas fa-eye"></i>
+    </button>
+    <button
+      class="btn-edit"
+      [routerLink]="['/meal-edit', meal.id]"
+      title="Edit Meal"
+    >
+      <i class="fas fa-edit"></i>
+    </button>
+    <button
+      class="btn-delete"
+      (click)="confirmDelete(meal.id)"
+      title="Delete Meal"
+    >
+      <i class="fas fa-trash"></i>
+    </button>
+  </ng-template>
+</div>
+
+
+
+
+
+<!-- <div class="meal-list-container">
+  <h2>Meal List</h2>
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearchTermChange($event)"
+      placeholder="Search meals by name, type, or calories..."
+    />
+    <button (click)="searchMeals(searchTerm)">Search</button>
+  </div>
+
+  <div *ngIf="results.length > 0">
+    <app-generic-table
+      [columns]="mealColumns"
+      [data]="results"
+      [actions]="actionTemplate">
+    </app-generic-table>
+  </div>
+
+  <div *ngIf="results.length === 0">
+    <p>No meals found</p>
+  </div>
+
+  <button [routerLink]="['/add-meal']">Add Meal</button>
+
+   Action Template with Custom Styles -->
+  <!-- <ng-template #actionTemplate let-meal>
+    <button 
+      class="btn-view custom-view-btn" 
+      [routerLink]="['/meal-details', meal.id]"
+    >
+      <i class="fas fa-eye"></i>
+    </button>
+    <button 
+      class="btn-edit custom-edit-btn" 
+      [routerLink]="['/meal-edit', meal.id]"
+    >
+      <i class="fas fa-edit"></i>
+    </button>
+    <button 
+      class="btn-delete custom-delete-btn" 
+      [routerLink]="['/meal-delete', meal.id]"
+    >
+      <i class="fas fa-trash"></i>
+    </button>
+  </ng-template>
+</div> --> 

@@ -63,10 +63,10 @@ body {
   .btn-danger {
     background-color: #dc3545;
   }
-  
+/*   
   .btn:hover {
     opacity: 0.8;
-  }
+  } */
   
   /* Profile Image Circular Card */
   .profile-image-card {

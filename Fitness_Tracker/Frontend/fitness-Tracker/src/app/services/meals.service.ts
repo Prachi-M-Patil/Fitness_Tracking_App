@@ -1,137 +1,181 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
-import { User } from './admin.service';
-import { NutritionDTO } from './nutrition.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 export interface MealDTO {
-    id: number;
-    name: string;
-    mealtype: string;
-    calories: number;
-    Protein: number;
-    carbs: number;
-    fats: number;
-    rating: number;
-    liked: boolean;
-    available: boolean;
-    nutrition: NutritionDTO;
-    users: User;
+  id: number; // Unique identifier for the meal
+  name: string; // Meal name
+  mealtype: string; // Meal type (e.g., Breakfast, Lunch, Dinner)
+  calories: number; // Total calories
+  protein: number; // Protein content
+  carbs: number; // Carbohydrates content
+  fats: number; // Fats content
+  rating: number; // Meal rating
+  liked: boolean; // Whether the meal is liked by the user
+  available: boolean; // Whether the meal is available for purchase
+  likesCount: number; // Total number of likes
+  nutritionId?: number; // Optional: Links to a nutrition entry
+  userId?: number; // Optional: Links to a specific user
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MealService {
-  private apiUrl = 'http://localhost:3300/api/meals';
+  private apiUrl = 'http://localhost:3300/api/meals'; // Base API URL for meals
 
   constructor(private http: HttpClient) {}
 
+  // **1. Fetch all meals**
   getAllMeals(): Observable<MealDTO[]> {
-    return this.http.get<MealDTO[]>(this.apiUrl);
-  }
-
-  getMealById(id: number): Observable<MealDTO> {
-    return this.http.get<MealDTO>(`${this.apiUrl}/${id}`);
-  }
-
-  addMeal(meal: MealDTO): Observable<MealDTO> {
-    return this.http.post<MealDTO>(this.apiUrl, meal).pipe(
-      catchError((error) => {
-        if (error.status === 403) {
-          // Show SweetAlert message
-          Swal.fire({
-            icon: 'error',
-            title: 'Access Denied',
-            text: 'You do not have permission to add a meal!',
-          });
-        }
-        return throwError(() => new Error(error.message));
-      })
+    return this.http.get<MealDTO[]>(this.apiUrl).pipe(
+      catchError((error) => this.handleError(error, 'Error fetching all meals'))
     );
   }
 
-  updateMeal(id: number, meal: MealDTO): Observable<MealDTO> {
-    return this.http.put<MealDTO>(`${this.apiUrl}/${id}`, meal);
+  // **2. Fetch a meal by ID**
+  getMealById(id: number): Observable<MealDTO> {
+    return this.http.get<MealDTO>(`${this.apiUrl}/${id}`).pipe(
+      catchError((error) => this.handleError(error, `Error fetching meal with ID ${id}`))
+    );
   }
 
+  // **3. Add a new meal**
+  addMeal(meal: Partial<MealDTO>): Observable<MealDTO> {
+    return this.http.post<MealDTO>(this.apiUrl, meal).pipe(
+      catchError((error) => this.handleError(error, 'Error adding a new meal'))
+    );
+  }
+
+  // **4. Update an existing meal**
+  updateMeal(id: number, meal: Partial<MealDTO>): Observable<MealDTO> {
+    return this.http.put<MealDTO>(`${this.apiUrl}/${id}`, meal).pipe(
+      catchError((error) => this.handleError(error, `Error updating meal with ID ${id}`))
+    );
+  }
+
+  // **5. Delete a meal**
   deleteMeal(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      catchError((error) => this.handleError(error, `Error deleting meal with ID ${id}`))
+    );
+  }
+
+  // **6. Toggle like for a meal**
+  toggleMealLike(mealId: number, userId: number): Observable<MealDTO> {
+    return this.http.post<MealDTO>(`${this.apiUrl}/${mealId}/toggle-like`, { userId }).pipe(
+      catchError((error) => this.handleError(error, `Error toggling like status for meal ID ${mealId}`))
+    );
+  }
+
+  // **7. Purchase a meal**
+  buyMeal(mealId: number, userId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${mealId}/buy`, { userId }).pipe(
+      catchError((error) => this.handleError(error, `Error purchasing meal with ID ${mealId}`))
+    );
+  }
+
+  // **8. Enhanced error handling**
+  private handleError(error: any, contextMessage: string) {
+    Swal.fire({
+      icon: 'error',
+      title: contextMessage,
+      text: error.message || 'Something went wrong. Please try again.',
+    });
+    return throwError(() => new Error(error.message || 'Unknown error occurred.'));
   }
 }
 
 
 // import { Injectable } from '@angular/core';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { Observable } from 'rxjs';
+// import { HttpClient } from '@angular/common/http';
+// import { Observable, throwError } from 'rxjs';
+// import { catchError } from 'rxjs/operators';
+// import Swal from 'sweetalert2';
 
 // export interface MealDTO {
-//   id?: number;
-//   name?: string;
-//   calories?: number;
-//   Protein?: number;
-//   carbs?: number;
-//   fats?: number;
-//   rating?: number;
-//   available?: boolean;
-//   imageUrl?: string;
-//   liked?: boolean;
-//   likes?: number; // Track the number of likes
- 
+//   id: number;
+//   name: string;
+//   mealtype: string;
+//   calories: number;
+//   protein: number;
+//   carbs: number;
+//   fats: number;
+//   rating: number;
+//   liked: boolean;
+//   available: boolean;
+//   likesCount: number;
+//   nutritionId?: number; // Links meal to a nutrition entry
+//   userId?: number; // Links meal to a specific user
 // }
 
 // @Injectable({
-//   providedIn: 'root'
+//   providedIn: 'root',
 // })
 // export class MealService {
-//   private baseUrl = 'http://localhost:3300/api/meals'; // Replace with your backend URL
+//   private apiUrl = 'http://localhost:3300/api/meals';
 
 //   constructor(private http: HttpClient) {}
 
-//   private getHeaders(): HttpHeaders {
-//     const token = localStorage.getItem('token');
-//     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+//   // Fetch all meals
+//   // getAllMeals(): Observable<MealDTO[]> {
+//   //   return this.http.get<MealDTO[]>(this.apiUrl).pipe(
+//   //     catchError((error) => this.handleError(error, 'Error fetching meals'))
+//   //   );
+//   // }
+//   getAllMeals(): Observable<MealDTO[]> {
+//         return this.http.get<MealDTO[]>(this.apiUrl);
 //   }
 
-//   logMeal(userId: number, mealData: MealDTO): Observable<MealDTO> {
-//     return this.http.post<MealDTO>(`${this.baseUrl}/${userId}`, mealData, { headers: this.getHeaders() });
+  
+//   // Fetch meal by ID
+//   getMealById(id: number): Observable<MealDTO> {
+//     return this.http.get<MealDTO>(`${this.apiUrl}/${id}`).pipe(
+//       catchError((error) => this.handleError(error, 'Error fetching meal details'))
+//     );
 //   }
 
-//   getMeals(userId: number): Observable<MealDTO[]> {
-//     return this.http.get<MealDTO[]>(`${this.baseUrl}/${userId}`, { headers: this.getHeaders() });
+//   // Add a new meal
+//   addMeal(meal: MealDTO): Observable<MealDTO> {
+//     return this.http.post<MealDTO>(this.apiUrl, meal).pipe(
+//       catchError((error) => this.handleError(error, 'Error adding meal'))
+//     );
 //   }
 
-//   createMeal(mealData: MealDTO): Observable<MealDTO> {
-//     return this.http.post<MealDTO>(`${this.baseUrl}/createmeal`, mealData, { headers: this.getHeaders() });
+//   // Update an existing meal
+//   updateMeal(id: number, meal: MealDTO): Observable<MealDTO> {
+//     return this.http.put<MealDTO>(`${this.apiUrl}/${id}`, meal).pipe(
+//       catchError((error) => this.handleError(error, 'Error updating meal'))
+//     );
 //   }
 
-//   updateMeal(mealId: number, mealData: MealDTO): Observable<MealDTO> {
-//     return this.http.put<MealDTO>(`${this.baseUrl}/${mealId}`, mealData, { headers: this.getHeaders() });
+//   // Delete a meal
+//   deleteMeal(id: number): Observable<void> {
+//     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+//       catchError((error) => this.handleError(error, 'Error deleting meal'))
+//     );
 //   }
 
-//   getMealRecommendations(userId: number): Observable<MealDTO[]> {
-//     return this.http.get<MealDTO[]>(`${this.baseUrl}/recommendations/${userId}`, { headers: this.getHeaders() });
+//   // Toggle like for a meal
+//   toggleMealLike(mealId: number, userId: number): Observable<MealDTO> {
+//     return this.http.post<MealDTO>(`${this.apiUrl}/${mealId}/toggle-like`, { userId }).pipe(
+//       catchError((error) => this.handleError(error, 'Error toggling meal like status'))
+//     );
 //   }
 
-//   rateMeal(userId: number, mealId: number, rating: number): Observable<void> {
-//     return this.http.post<void>(`${this.baseUrl}/rateMeal/${userId}/${mealId}`, { rating }, { headers: this.getHeaders() });
+//   buyMeal(mealId: number, userId: number): Observable<void> {
+//     return this.http.post<void>(`${this.apiUrl}/${mealId}/buy`, { userId });
 //   }
 
-//   deleteMeal(userId: number, mealId: number): Observable<void> {
-//     return this.http.delete<void>(`${this.baseUrl}/deleteMeal/${userId}/${mealId}`, { headers: this.getHeaders() });
+//   private handleError(error: any, message: string) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: message,
+//       text: error.message || 'Something went wrong!',
+//     });
+//     return throwError(() => new Error(error));
 //   }
-
-//   getTotalMealsAvailable(): Observable<number> {
-//     return this.http.get<number>(`${this.baseUrl}/getTotalMealsAvailable`, { headers: this.getHeaders() });
-//   }
-
-//   getAvailableMeals(userId: number): Observable<MealDTO[]> {
-//     return this.http.get<MealDTO[]>(`${this.baseUrl}/availableMeals/${userId}`, { headers: this.getHeaders() });
-//   }
-
-//   toggleLikeMeal(userId: number, mealId: number): Observable<MealDTO> {
-//     return this.http.post<MealDTO>(`${this.baseUrl}/toggleLike/${userId}/${mealId}`, {}, { headers: this.getHeaders() });
-//   }
-
 // }
+

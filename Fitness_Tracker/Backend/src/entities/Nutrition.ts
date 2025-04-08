@@ -1,28 +1,36 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Meal } from "./Meal";
-import { User } from "./User";
-
-@Entity({name: 'Nutrition_Ft_Tracker'})
-export class Nutrition{
+import {
+    Column,
+    Entity,
+    ManyToMany,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    JoinTable,
+  } from "typeorm";
+  import { Meal } from "./Meal";
+  import { User } from "./User";
+  
+  @Entity({ name: "Nutrition_Ft_Tracker" })
+  export class Nutrition {
     @PrimaryGeneratedColumn()
     id: number;
-
-    @Column()
+  
+    @Column({ type: "float" , default: 0})
     dailyCalories: number;
-
-    @Column()
+  
+    @Column({ type: "float" ,default: 0})
     dailyProtein: number;
-
-    @Column()
+  
+    @Column({ type: "float" , default: 0})
     dailyCarbs: number;
-
-    @Column()
+  
+    @Column({ type: "float" , default: 0})
     dailyFats: number;
-
-    @ManyToOne(()=> Meal, meals=> meals.nutrition, { onDelete: "CASCADE" })
+  
+    @ManyToMany(() => Meal, { cascade: true })
+    @JoinTable()
     meals: Meal[];
-
-    @ManyToOne(() => User, user => user.nutrition)
+  
+    @ManyToOne(() => User, (user) => user.nutrition)
     user: User;
-    
-}
+  }
+  

@@ -7,5 +7,8 @@ export class workoutDTO{
     caloriesBurned: number;
     user: User;
     date: Date;
+    completed?: boolean;
+    goalIds?: number[];     // Optional array of associated goal IDs
+
     
 }

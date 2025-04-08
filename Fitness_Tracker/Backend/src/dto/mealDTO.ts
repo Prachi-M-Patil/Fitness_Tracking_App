@@ -35,9 +35,12 @@ export class MealDTO {
     @IsBoolean()
     available: boolean;
 
+    @IsNumber()
+    likesCount: number; // Optional: defaults to 0
+
     @ValidateNested()
     @Type(() => NutritionDTO)
-    nutrition: NutritionDTO;
+    nutrition: NutritionDTO[];
 
     @ValidateNested()
     @Type(() => User)

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Goal } from './goal.service';
 
 export interface User {
   id?: number;
@@ -37,16 +38,16 @@ export interface Workout {
   exercises?: Exercise[];
 }
 
-export interface Goal {
-  id?: number;
-  goalType?: string;
-  target?: string;
-  achieved?: boolean;
-  progress?: number;
-  createdAt?: Date;
-  deadline?: string;
-  user?: User;
-}
+// export interface Goal {
+//   id?: number;
+//   goalType?: string;
+//   target?: string;
+//   achieved?: boolean;
+//   progress?: number;
+//   createdAt?: Date;
+//   deadline?: string;
+//   user?: User;
+// }
 
 export interface Activity {
   id?: number;

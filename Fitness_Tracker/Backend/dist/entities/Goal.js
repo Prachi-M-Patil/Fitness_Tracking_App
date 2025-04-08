@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Goal = void 0;
 const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
-const Activity_1 = require("./Activity");
+const Workout_1 = require("./Workout");
 let Goal = class Goal {
 };
 exports.Goal = Goal;
@@ -33,7 +33,7 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Goal.prototype, "achieved", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ type: "float", default: 0 }),
     __metadata("design:type", Number)
 ], Goal.prototype, "progress", void 0);
 __decorate([
@@ -45,13 +45,50 @@ __decorate([
     __metadata("design:type", String)
 ], Goal.prototype, "deadline", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ default: 1 }),
+    __metadata("design:type", Number)
+], Goal.prototype, "requiredWorkouts", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: 0 }),
+    __metadata("design:type", Number)
+], Goal.prototype, "completedWorkouts", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => User_1.User, user => user.goals),
     __metadata("design:type", User_1.User)
 ], Goal.prototype, "user", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => Activity_1.Activity, activity => activity.goal),
+    (0, typeorm_1.ManyToMany)(() => Workout_1.Workout, workout => workout.goals),
+    (0, typeorm_1.JoinTable)({
+        name: "goal_workout_ft_tracker",
+        joinColumn: { name: "goalId", referencedColumnName: "id" },
+        inverseJoinColumn: { name: "workoutId", referencedColumnName: "id" }
+    }),
     __metadata("design:type", Array)
-], Goal.prototype, "activities", void 0);
+], Goal.prototype, "workouts", void 0);
 exports.Goal = Goal = __decorate([
     (0, typeorm_1.Entity)({ name: 'Goal_Ft_Tracker' })
 ], Goal);
+// import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+// import { User } from "./User";
+// import { Activity } from "./Activity";
+// @Entity({name: 'Goal_Ft_Tracker'})
+// export class Goal{
+//     @PrimaryGeneratedColumn()
+//     id: number;
+//     @Column()
+//     goalType: string; //e.g. weight loss
+//     @Column()
+//     target: string; //loss 5 kg
+//     @Column({default: false})
+//     achieved: boolean;
+//     @Column({nullable: true})
+//     progress: number;
+//     @Column()
+//     createdAt: Date;
+//     @Column({type:'date', nullable: true})
+//     deadline: string;
+//     @ManyToOne(()=> User, user => user.goals)
+//     user: User;
+//     // @OneToMany(() => Activity, activity => activity.goal)
+//     // activities: Activity[];
+// }

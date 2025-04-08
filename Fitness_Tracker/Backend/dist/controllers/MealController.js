@@ -11,90 +11,159 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MealController = void 0;
 class MealController {
-    constructor(mealService) {
+    constructor(mealService, nutritionService) {
+        this.nutritionService = nutritionService;
         this.mealService = mealService;
+        this.nutritionService = nutritionService;
     }
+    // Add a new meal
     addMeal(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const mealData = req.body;
-                const meal = yield this.mealService.addMeal(mealData);
+                const meal = yield this.mealService.addMeal(req.body);
                 res.status(201).json(meal);
             }
             catch (error) {
-                res.status(error.status || 500).json({ message: error.message });
+                res.status(500).json({ message: error.message });
             }
         });
     }
+    // Update an existing meal
     updateMeal(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const mealId = parseInt(req.params.id, 10);
-                const mealData = req.body;
-                const meal = yield this.mealService.updateMeal(mealId, mealData);
-                res.status(200).json(meal);
+                const updatedMeal = yield this.mealService.updateMeal(mealId, req.body);
+                if (!updatedMeal) {
+                    res.status(404).json({ message: "Meal not found." });
+                }
+                else {
+                    res.status(200).json(updatedMeal);
+                }
             }
             catch (error) {
-                res.status(error.status || 500).json({ message: error.message });
+                res.status(500).json({ message: error.message });
             }
         });
     }
+    // Delete a meal
     deleteMeal(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const mealId = parseInt(req.params.id, 10);
                 yield this.mealService.deleteMeal(mealId);
-                res.status(200).json({ message: 'Meal deleted successfully' });
+                res.status(200).json({ message: "Meal deleted successfully." });
             }
             catch (error) {
-                res.status(error.status || 500).json({ message: error.message });
+                res.status(500).json({ message: error.message });
             }
         });
     }
+    // Fetch a specific meal by ID
     getMealById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const mealId = parseInt(req.params.id, 10);
                 const meal = yield this.mealService.getMealById(mealId);
-                res.status(200).json(meal);
+                if (!meal) {
+                    res.status(404).json({ message: "Meal not found." });
+                }
+                else {
+                    res.status(200).json(meal);
+                }
             }
             catch (error) {
-                res.status(error.status || 500).json({ message: error.message });
+                res.status(500).json({ message: error.message });
             }
         });
     }
+    // Fetch all meals
     getAllMeals(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log("fetching meals");
                 const meals = yield this.mealService.getAllMeals();
                 res.status(200).json(meals);
             }
             catch (error) {
-                res.status(error.status || 500).json({ message: error.message });
+                res.status(500).json({ message: error.message });
             }
         });
     }
+    // Fetch meals for a specific user
     getUserMeals(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const userId = parseInt(req.params.userId, 10);
                 const meals = yield this.mealService.getUserMeals(userId);
-                res.status(200).json(meals);
+                if (!meals.length) {
+                    res.status(404).json({ message: "No meals found for this user." });
+                }
+                else {
+                    res.status(200).json(meals);
+                }
             }
             catch (error) {
-                res.status(error.status || 500).json({ message: error.message });
+                res.status(500).json({ message: error.message });
             }
         });
     }
+    // Fetch liked meals for a specific user
     getUserLikedMeals(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const userId = parseInt(req.params.userId, 10);
-                const meals = yield this.mealService.getUserLikedMeals(userId);
-                res.status(200).json(meals);
+                const likedMeals = yield this.mealService.getUserLikedMeals(userId);
+                if (!likedMeals.length) {
+                    res.status(404).json({ message: "No liked meals found for this user." });
+                }
+                else {
+                    res.status(200).json(likedMeals);
+                }
             }
             catch (error) {
-                res.status(error.status || 500).json({ message: error.message });
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
+    // Log nutrition for a meal
+    logMealNutrition(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const mealId = parseInt(req.params.mealId, 10);
+                const nutrition = yield this.mealService.logMealNutrition(mealId, req.body);
+                res.status(200).json(nutrition);
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
+    // Toggle like/dislike for a meal
+    toggleMealLike(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const mealId = parseInt(req.params.mealId, 10);
+                const userId = parseInt(req.body.userId, 10);
+                const updatedMeal = yield this.mealService.toggleMealLike(mealId, userId);
+                res.status(200).json(updatedMeal);
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
+    // Buy a meal
+    buyMeal(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const mealId = parseInt(req.params.mealId, 10);
+                const userId = parseInt(req.body.userId, 10);
+                const message = yield this.mealService.buyMeal(mealId, userId);
+                res.status(200).json({ message });
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
             }
         });
     }

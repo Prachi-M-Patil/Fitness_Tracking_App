@@ -59,9 +59,13 @@ __decorate([
     __metadata("design:type", Boolean)
 ], MealDTO.prototype, "available", void 0);
 __decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], MealDTO.prototype, "likesCount", void 0);
+__decorate([
     (0, class_validator_1.ValidateNested)(),
     (0, class_transformer_1.Type)(() => nutritionDTO_1.NutritionDTO),
-    __metadata("design:type", nutritionDTO_1.NutritionDTO)
+    __metadata("design:type", Array)
 ], MealDTO.prototype, "nutrition", void 0);
 __decorate([
     (0, class_validator_1.ValidateNested)(),

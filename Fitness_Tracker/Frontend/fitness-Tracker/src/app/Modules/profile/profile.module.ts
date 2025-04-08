@@ -7,6 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProfileViewComponent } from './profileview/profileview.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { HoverhighlightDirective } from '../../shared/directives/hoverhighlight.directive';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -19,6 +21,7 @@ import { EffectsModule } from '@ngrx/effects';
     ProfileRoutingModule,
     FormsModule,
     HttpClientModule,
+    SharedModule
     // StoreDevtoolsModule.instrument({
     //   maxAge: 25,
     //   logOnly: environment.production

@@ -1,4 +1,52 @@
-<table class="goal-table">
+<div *ngFor="let goal of goals" class="goal-card">
+  <!-- Delete Button Positioned in the Top-Right Corner -->
+  <button class="delete-btn" (click)="deleteGoal(goal.id!)">
+    <i class="fas fa-trash"></i>
+  </button>
+
+  <!-- Goal Type Header -->
+  <h3>{{ goal.goalType }}</h3>
+  
+  <!-- Target -->
+  <p>Target: <span>{{ goal.target }}</span></p>
+  
+  <!-- Progress -->
+  <p>Progress: <span>{{ goal.progress }}%</span></p>
+  <div class="progress-bar">
+    <span [style.width.%]="goal.progress"></span>
+  </div>
+  
+  <!-- Status -->
+  <p class="status" [ngClass]="goal.achieved ? 'achieved' : 'in-progress'">
+    {{ goal.achieved ? 'Achieved' : 'In Progress' }}
+  </p>
+</div>
+
+
+<!-- <h2>Goal List</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Goal Type</th>
+      <th>Target</th>
+      <th>Progress</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let goal of goals">
+      <td>{{ goal.goalType }}</td>
+      <td>{{ goal.target }}</td>
+      <td>{{ goal.progress }}%</td>
+      <td>
+        <button (click)="updateGoal(goal.id!)">Update</button>
+        <button (click)="deleteGoal(goal.id!)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+
+<!-- <table class="goal-table">
   <thead>
     <tr>
       <th>Goal Type</th>
@@ -33,4 +81,4 @@
       </td>
     </tr>
   </tbody>
-</table>
+</table> -->

@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { MealRoutingModule } from './meal-routing.module';
 import { MealListComponent } from './meal-list/meal-list.component';
 import { MealDetailsComponent } from './meal-details/meal-details.component';
-import { MealService } from '../../services/meals.service';
 import { MealAddComponent } from './meal-add/meal-add.component';
 import { MealEditComponent } from './meal-edit/meal-edit.component';
 import { MealDeleteComponent } from './meal-delete/meal-delete.component';
+import { MealService } from '../../services/meals.service';
+import { SharedModule } from '../../shared/shared.module';
+
 
 
 
@@ -23,7 +25,8 @@ import { MealDeleteComponent } from './meal-delete/meal-delete.component';
   imports: [
     CommonModule,
     FormsModule,
-    MealRoutingModule
+    MealRoutingModule,
+    SharedModule
   ],
   exports:[
     MealListComponent,

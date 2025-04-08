@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HoverhighlightDirective } from '../../shared/directives/hoverhighlight.directive';
+import { SharedModule } from '../../shared/shared.module';
 
 
 
@@ -20,7 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdminDashboardComponent,
     UserDashboardComponent,
     UserDetailsComponent
-    ],
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -29,7 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSidenavModule,
     MatListModule,
     MatIconModule,
-    MatToolbarModule
+    MatToolbarModule,
+    SharedModule
   ],
   exports:[
     DashboardComponent,

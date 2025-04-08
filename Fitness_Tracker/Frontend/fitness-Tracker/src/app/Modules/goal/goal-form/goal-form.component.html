@@ -1,4 +1,120 @@
-<form (ngSubmit)="createGoal()">
+<h2>Create a New Goal</h2>
+<form (ngSubmit)="createGoal()" #goalForm="ngForm">
+  <!-- Goal Name -->
+  <div class="form-group">
+    <label for="name">Goal Name:</label>
+    <input
+      id="name"
+      type="text"
+      [(ngModel)]="goalData.name"
+      name="name"
+      required
+      #nameInput="ngModel"
+      class="form-control"
+    />
+    <div *ngIf="nameInput.invalid && nameInput.touched" class="text-danger">
+      Goal name is required.
+    </div>
+  </div>
+
+  <!-- Target -->
+  <div class="form-group">
+    <label for="target">Target:</label>
+    <input
+      id="target"
+      type="text"
+      [(ngModel)]="goalData.target"
+      name="target"
+      required
+      #targetInput="ngModel"
+      class="form-control"
+    />
+    <div *ngIf="targetInput.invalid && targetInput.touched" class="text-danger">
+      Target is required.
+    </div>
+  </div>
+
+  <!-- Deadline -->
+  <div class="form-group">
+    <label for="deadline">Deadline (optional):</label>
+    <input
+      id="deadline"
+      type="date"
+      [(ngModel)]="goalData.deadline"
+      name="deadline"
+      class="form-control"
+    />
+  </div>
+
+  <!-- Initial Progress -->
+  <div class="form-group">
+    <label for="progress">Initial Progress (optional):</label>
+    <input
+      id="progress"
+      type="number"
+      [(ngModel)]="goalData.progress"
+      name="progress"
+      min="0"
+      max="100"
+      class="form-control"
+    />
+  </div>
+
+ 
+
+  <!-- Workout Types -->
+  <!-- <div class="form-group">
+    <label for="workoutTypes">Workout Types:</label>
+    <input
+      id="workoutTypes"
+      type="text"
+      #workoutInput
+      (keyup.enter)="addWorkoutType(workoutInput.value); workoutInput.value = ''"
+      placeholder="Enter workout type and press Enter"
+      class="form-control"
+    />
+    <ul class="list-group mt-2">
+      <li *ngFor="let type of goalData.requiredWorkoutTypes" class="list-group-item">
+        {{ type }}
+        <button type="button" class="btn btn-danger btn-sm float-right" (click)="removeWorkoutType(type)">
+          Remove
+        </button>
+      </li>
+    </ul>
+  </div> -->
+  <div class="form-group">
+    <label for="availableWorkoutTypes">Select Workout Types:</label>
+    <div class="form-check" *ngFor="let type of availableWorkoutTypes">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [checked]="goalData.requiredWorkoutTypes?.includes(type)"
+        (change)="toggleWorkoutType(type, $event)"
+        id="{{ type }}"
+      />
+      <label class="form-check-label" for="{{ type }}">{{ type }}</label>
+    </div>
+    <ul class="list-group mt-2">
+      <li *ngFor="let type of goalData.requiredWorkoutTypes" class="list-group-item">
+        {{ type }}
+        <button type="button" class="btn btn-danger btn-sm float-right" (click)="removeWorkoutType(type)">
+          Remove
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Submit Button -->
+  <button type="submit" [disabled]="goalForm.invalid" class="btn btn-primary mt-3">
+    Create Goal
+  </button>
+</form>
+
+
+<app-goal-list></app-goal-list>
+
+
+<!-- <form (ngSubmit)="createGoal()">
   <div class="form-group">
     <label for="name">Goal Name: <span class="required">*</span></label>
     <input type="text" id="name" [(ngModel)]="goal.name" name="name" required>
@@ -34,4 +150,4 @@
   </div>
   <button type="submit" class="btn">Create Goal</button>
 </form>
-<app-goal-list></app-goal-list>
+<app-goal-list></app-goal-list> -->

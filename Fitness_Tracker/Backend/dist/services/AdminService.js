@@ -60,9 +60,21 @@ class AdminDashboardService {
         });
     }
     // Search users by different fields
+    // async searchUsers(query: Partial<User>): Promise<User[]> {
+    //     return await userRepository.find({ where: query });
+    // }
     searchUsers(query) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield UserRepo_1.userRepository.find({ where: query });
+            const whereClause = {};
+            if (query.id)
+                whereClause.id = query.id;
+            if (query.username)
+                whereClause.username = query.username;
+            if (query.email)
+                whereClause.email = query.email;
+            // if (query.workouts) whereClause.workouts = { id: query.workouts.map(workout => workout.id) };
+            // if (query.goals) whereClause.workouts= { id: query.goals.map(goal => goal.id) };
+            return yield UserRepo_1.userRepository.find({ where: whereClause });
         });
     }
     // Get user's workouts

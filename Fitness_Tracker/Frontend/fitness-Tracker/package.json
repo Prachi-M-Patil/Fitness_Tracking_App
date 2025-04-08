@@ -25,6 +25,7 @@
     "@ngrx/entity": "^19.0.1",
     "@ngrx/store": "^19.0.1",
     "@ngrx/store-devtools": "^19.0.1",
+    "@types/node": "^22.14.0",
     "jwt-decode": "^4.0.0",
     "material-icons": "^1.13.14",
     "rxjs": "~7.8.0",

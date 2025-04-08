@@ -1,37 +1,300 @@
 import { Component, OnInit } from '@angular/core';
-import { Goal, GoalService } from '../../../services/goal.service';
-import { AuthService } from '../../../services/auth.service';
-import { Meal } from '../../../services/admin.service';
 import { MealDTO, MealService } from '../../../services/meals.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  selector: 'app-Meal-list',
+  selector: 'app-meal-list',
   standalone: false,
   templateUrl: './meal-list.component.html',
-  styleUrls: ['./meal-list.component.css']
+  styleUrls: ['./meal-list.component.css'],
 })
 export class MealListComponent implements OnInit {
-  meals: MealDTO[] = []; // Corrected to be an array of Meal objects
-  userId: number;
+  meals: MealDTO[] = [];
+  results: MealDTO[] = [];
+  searchTerm: string = '';
+  mealColumns = [
+    { field: 'id', header: 'ID' },
+    { field: 'name', header: 'Name' },
+    { field: 'mealtype', header: 'Type' },
+    { field: 'calories', header: 'Calories' },
+    { field: 'likesCount', header: 'Likes' },
+    { field: 'available', header: 'Available' }
+  ];
 
-  constructor(private  mealservice: MealService, private authService: AuthService) {
-    this.userId = this.authService.getUserId();
+  constructor(private mealService: MealService,private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.fetchMeals();
   }
 
-  ngOnInit() {
-    this.mealservice.getAllMeals().subscribe(data=>{
-      this.meals =  data;
-    });
-    console.log("fetching meals");
+  // Fetch all meals from the service
+  fetchMeals(): void {
+    this.mealService.getAllMeals().subscribe(
+      (data) => {
+        this.meals = data;
+        this.results = data; // Initialize results with all meals
+      },
+      (error) => {
+        console.error('Error fetching meals:', error);
+      }
+    );
   }
 
-  getUserRole(): boolean{
-    const role = this.authService.getUserRole();
-    console.log(role);
-    if(role=== 'admin'){
-      return true;
+  // Handle changes in the search term
+  onSearchTermChange(term: string): void {
+    this.searchMeals(term);
+  }
+
+
+
+  // Search meals based on the search term
+  searchMeals(term: string): void {
+    const lowerCaseTerm = term.toLowerCase();
+    this.results = this.meals.filter((meal) =>
+      (meal.name && meal.name.toLowerCase().includes(lowerCaseTerm)) ||
+      (meal.mealtype && meal.mealtype.toLowerCase().includes(lowerCaseTerm)) ||
+      (meal.calories && meal.calories.toString().includes(lowerCaseTerm))
+    );
+  }
+
+  // Confirm and delete a meal
+  confirmDelete(mealId: number): void {
+    if (confirm('Are you sure you want to delete this meal?')) {
+      this.mealService.deleteMeal(mealId).subscribe(
+        () => {
+          this.fetchMeals(); // Refresh the list after deletion
+          alert('Meal deleted successfully.');
+        },
+        (error) => {
+          console.error('Error deleting meal:', error);
+        }
+      );
     }
-    return false;
   }
 
+  getInputValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
+  
+  toggleLike(meal: MealDTO): void {
+    const userId = this.authService.getUserId(); // Replace with the logged-in user's ID
+
+     const heartIcon = document.querySelector(`.btn-like i.fa-heart`);
+  
+  // Toggle the heart's color
+  if (heartIcon) {
+    heartIcon.classList.toggle('active');
+  }
+    this.mealService.toggleMealLike(meal.id, userId).subscribe(
+      (updatedMeal) => {
+        // Update the meal's liked status and likesCount dynamically
+        meal.liked = updatedMeal.liked;
+        meal.likesCount = updatedMeal.likesCount;
+      },
+      (error) => {
+        console.error('Error toggling like:', error);
+      }
+    );
+  }
+  
+  
 }
+
+
+
+// import { Component, OnInit } from '@angular/core';
+// import { Subject } from 'rxjs';
+// import { debounceTime } from 'rxjs/operators';
+// import { MealService, MealDTO } from '../../../services/meals.service';
+
+// @Component({
+//   selector: 'app-meal-list',
+//   standalone: false,
+//   templateUrl: './meal-list.component.html',
+//   styleUrls: ['./meal-list.component.css'],
+// })
+// export class MealListComponent implements OnInit {
+//   meals: MealDTO[] = [];
+//   results: MealDTO[] = [];
+//   searchTerm: string = '';
+//   searchSubject: Subject<string> = new Subject<string>();
+//   mealColumns = [
+//     { field: 'id', header: 'ID' },
+//     { field: 'name', header: 'Name' },
+//     { field: 'mealtype', header: 'Type' },
+//     { field: 'calories', header: 'Calories' },
+//     { field: 'likesCount', header: 'Likes' }, // Display total likes for the meal
+//     { field: 'available', header: 'Available' } // Display meal availability
+//   ];
+
+//   constructor(private mealService: MealService) {}
+
+//   ngOnInit() {
+//     // Fetch all meals on initialization
+//     this.mealService.getAllMeals().subscribe((data) => {
+//       this.meals = data;
+//       this.results = data; // Initialize search results with all meals
+//     });
+
+//     // Subscribe to search term changes with debounceTime
+//     this.searchSubject.pipe(debounceTime(300)).subscribe((term) => {
+//       this.searchMeals(term);
+//     });
+//   }
+
+//   // Triggered when the search term changes
+//   onSearchTermChange(term: string) {
+//     this.searchSubject.next(term);
+//   }
+
+//   // Filter meals based on the search term
+//   searchMeals(term: string) {
+//     const lowerCaseTerm = term.toLowerCase();
+//     this.results = this.meals.filter((meal) =>
+//       (meal.name && meal.name.toLowerCase().includes(lowerCaseTerm)) ||
+//       (meal.mealtype && meal.mealtype.toLowerCase().includes(lowerCaseTerm)) ||
+//       (meal.calories && meal.calories.toString().includes(lowerCaseTerm)) ||
+//       (meal.likesCount && meal.likesCount.toString().includes(lowerCaseTerm)) || // Filter by likesCount
+//       (meal.available && meal.available.toString().includes(lowerCaseTerm)) // Filter by availability
+//     );
+//   }
+
+//   // Toggle the like/dislike status for a meal
+//   toggleLike(meal: MealDTO) {
+//     this.mealService.toggleMealLike(meal.id, 1 /* Assuming userId is 1 for now */).subscribe((updatedMeal) => {
+//       // Update the likesCount for the meal
+//       meal.likesCount = updatedMeal.likesCount;
+//       meal.liked = updatedMeal.liked;
+//     });
+//   }
+
+//   // Buy a meal and update its availability
+//   buyMeal(meal: MealDTO) {
+//     this.mealService.buyMeal(meal.id, 1 /* Assuming userId is 1 for now */).subscribe(() => {
+//       // Update the meal's availability
+//       meal.available = false;
+//     });
+//   }
+// }
+
+
+
+
+// import { Component, OnInit } from '@angular/core';
+// import { Subject } from 'rxjs';
+// import { debounceTime } from 'rxjs/operators';
+// import { MealService, MealDTO } from '../../../services/meals.service';
+
+// @Component({
+//   selector: 'app-meal-list',
+//   standalone: false,
+//   templateUrl: './meal-list.component.html',
+//   styleUrls: ['./meal-list.component.css']
+// })
+// export class MealListComponent implements OnInit {
+//   meals: MealDTO[] = [];
+//   results: MealDTO[] = [];
+//   searchTerm: string = '';
+//   searchSubject: Subject<string> = new Subject<string>();
+//   mealColumns = [
+//     { field: 'id', header: 'ID' },
+//     { field: 'name', header: 'Name' },
+//     { field: 'mealtype', header: 'Type' },
+//     { field: 'calories', header: 'Calories' }
+//   ];
+
+//   constructor(private mealService: MealService) {}
+
+//   ngOnInit() {
+//     this.mealService.getAllMeals().subscribe(data => {
+//       this.meals = data;
+//       this.results = data;
+//     });
+
+//     this.searchSubject.pipe(
+//       debounceTime(300)
+//     ).subscribe(term => {
+//       this.searchMeals(term);
+//     });
+//   }
+
+//   onSearchTermChange(term: string) {
+//     this.searchSubject.next(term);
+//   }
+
+//   searchMeals(term: string) {
+//     const lowerCaseTerm = term.toLowerCase();
+//     this.results = this.meals.filter(meal =>
+//       (meal.name && meal.name.toLowerCase().includes(lowerCaseTerm)) ||
+//       (meal.mealtype && meal.mealtype.toLowerCase().includes(lowerCaseTerm)) ||
+//       (meal.calories && meal.calories.toString().includes(lowerCaseTerm))
+//     );
+//   }
+// }
+
+
+// import { Component, OnInit } from '@angular/core';
+// import { AuthService } from '../../../services/auth.service';
+// import { MealDTO, MealService } from '../../../services/meals.service';
+// import { Subject } from 'rxjs';
+// import { debounceTime } from 'rxjs/operators';
+
+// @Component({
+//   selector: 'app-meal-list',
+//   standalone: false,
+//   templateUrl: './meal-list.component.html',
+//   styleUrls: ['./meal-list.component.css']
+// })
+// export class MealListComponent implements OnInit {
+//   meals: MealDTO[] = [];
+//   userId: number;
+//   searchTerm: string = '';
+//   results: MealDTO[] = [];
+//   searchSubject: Subject<string> = new Subject<string>(); // Subject for search term
+
+//   constructor(private mealService: MealService, private authService: AuthService) {
+//     this.userId = this.authService.getUserId();
+//   }
+
+//   ngOnInit() {
+//     this.mealService.getAllMeals().subscribe(data => {
+//       this.meals = data;
+//       this.results = data; // Initialize results with all meals
+//     });
+
+//     // Subscribe to the Subject and apply debounceTime
+//     this.searchSubject.pipe(
+//       debounceTime(300) // Wait 300ms before processing search
+//     ).subscribe(term => {
+//       this.searchMeals(term);
+//     });
+
+//     console.log("fetching meals");
+//   }
+
+//   onSearchTermChange(term: string) {
+//     this.searchSubject.next(term); // Emit new search term
+//   }
+
+//   searchMeals(term: string) {
+//     const lowerCaseTerm = term.toLowerCase();
+//     this.results = this.meals.filter(meal =>
+//       (meal.name && meal.name.toLowerCase().includes(lowerCaseTerm)) ||
+//       (meal.mealtype && meal.mealtype.toLowerCase().includes(lowerCaseTerm)) ||
+//       (meal.calories && meal.calories.toString().includes(lowerCaseTerm))||
+//       (meal.available && meal.available.toString().includes(lowerCaseTerm))
+
+//     );
+//   }
+// }
+
+
+  // getUserRole(): boolean{
+  //   const role = this.authService.getUserRole();
+  //   console.log(role);
+  //   if(role=== 'admin'){
+  //     return true;
+  //   }
+  //   return false;
+  // }
+

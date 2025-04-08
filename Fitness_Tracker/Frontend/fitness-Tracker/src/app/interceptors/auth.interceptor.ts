@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import Swal from 'sweetalert2';
 
 
 @Injectable()
@@ -22,6 +23,21 @@ export class AuthInterceptor implements HttpInterceptor {
           this.authService.logout();
           this.router.navigate(['/login']);
         }
+        if (error.status === 500) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Server Error',
+            text: 'Something went wrong on the server. Please try again later.',
+          });
+        }
+        if (error.status === 404 ) {
+          Swal.fire({
+            icon: 'error',
+            title: 'error',
+            text: 'data not found',
+          });
+        }
+        
         return throwError(error);
       })
     );

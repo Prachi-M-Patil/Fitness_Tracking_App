@@ -7,6 +7,7 @@ import { userRepository } from "../repositories/UserRepo";
 import { workoutRepository } from "../repositories/WorkoutRepo";
 import { goalRepository } from "../repositories/GoalRepo";
 import { mealRepository } from "../repositories/mealRepo";
+import { FindOptionsWhere } from "typeorm";
 
 export class AdminDashboardService {
     // Add a new user
@@ -55,9 +56,21 @@ export class AdminDashboardService {
     }
 
     // Search users by different fields
+    // async searchUsers(query: Partial<User>): Promise<User[]> {
+    //     return await userRepository.find({ where: query });
+    // }
     async searchUsers(query: Partial<User>): Promise<User[]> {
-        return await userRepository.find({ where: query });
+        const whereClause: FindOptionsWhere<User> = {};
+
+        if (query.id) whereClause.id = query.id;
+        if (query.username) whereClause.username = query.username;
+        if (query.email) whereClause.email = query.email;
+        // if (query.workouts) whereClause.workouts = { id: query.workouts.map(workout => workout.id) };
+        // if (query.goals) whereClause.workouts= { id: query.goals.map(goal => goal.id) };
+        return await userRepository.find({ where: whereClause });
     }
+
+
 
     // Get user's workouts
     async getUserWorkouts(userId: number): Promise<Workout[]> {

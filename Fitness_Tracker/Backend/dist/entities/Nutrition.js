@@ -21,29 +21,30 @@ __decorate([
     __metadata("design:type", Number)
 ], Nutrition.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "float", default: 0 }),
     __metadata("design:type", Number)
 ], Nutrition.prototype, "dailyCalories", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "float", default: 0 }),
     __metadata("design:type", Number)
 ], Nutrition.prototype, "dailyProtein", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "float", default: 0 }),
     __metadata("design:type", Number)
 ], Nutrition.prototype, "dailyCarbs", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "float", default: 0 }),
     __metadata("design:type", Number)
 ], Nutrition.prototype, "dailyFats", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Meal_1.Meal, meals => meals.nutrition, { onDelete: "CASCADE" }),
+    (0, typeorm_1.ManyToMany)(() => Meal_1.Meal, { cascade: true }),
+    (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], Nutrition.prototype, "meals", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => User_1.User, user => user.nutrition),
+    (0, typeorm_1.ManyToOne)(() => User_1.User, (user) => user.nutrition),
     __metadata("design:type", User_1.User)
 ], Nutrition.prototype, "user", void 0);
 exports.Nutrition = Nutrition = __decorate([
-    (0, typeorm_1.Entity)({ name: 'Nutrition_Ft_Tracker' })
+    (0, typeorm_1.Entity)({ name: "Nutrition_Ft_Tracker" })
 ], Nutrition);

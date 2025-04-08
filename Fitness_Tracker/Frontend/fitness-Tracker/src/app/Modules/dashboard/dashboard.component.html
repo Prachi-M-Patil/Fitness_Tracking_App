@@ -3,15 +3,23 @@
     <p>Your ultimate companion for tracking workouts, meals, and progress towards your fitness goals.</p>
     <h2>Dashboard</h2>
     <div class="card-container">
-        <div class="card">
-            <h3>User Login</h3>
-            <p>Access your personal fitness tracker, view your progress, and manage your workouts and meals.</p>
-            <button (click)="navigateToLogin('user')" class="btn btn-primary">User Login</button>
-        </div>
-        <div class="card">
-            <h3>Admin Login</h3>
-            <p>Manage user accounts, oversee progress, and maintain the overall system settings.</p>
-            <button (click)="navigateToLogin('admin')" class="btn btn-secondary">Admin Login</button>
-        </div>
+      <!-- User Login Card -->
+      <div class="card" appHoverhighlight>
+        <h3><i class="fas fa-user-circle"></i> User Login</h3>
+        <p>Access your personal fitness tracker, view your progress, and manage your workouts and meals.</p>
+        <button (click)="navigateToLogin('user')" class="btn btn-primary">
+          <i class="fas fa-arrow-circle-right"></i> User Login
+        </button>
+      </div>
+  
+      <!-- Admin Login Card -->
+      <div class="card" appHoverhighlight>
+        <h3><i class="fas fa-user-shield"></i> Admin Login</h3>
+        <p>Manage user accounts, oversee progress, and maintain the overall system settings.</p>
+        <button (click)="navigateToLogin('admin')" class="btn btn-secondary">
+          <i class="fas fa-arrow-circle-right"></i> Admin Login
+        </button>
+      </div>
     </div>
-</div>
+  </div>
+  

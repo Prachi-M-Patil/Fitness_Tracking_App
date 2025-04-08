@@ -4,7 +4,7 @@ import { GoalListComponent } from './goal-list/goal-list.component';
 import { GoalFormComponent } from './goal-form/goal-form.component';
 
 const routes: Routes = [
-    { path: 'goals', component: GoalListComponent },
+    { path: 'goals/list', component: GoalListComponent },
     { path: 'create-goal', component: GoalFormComponent },
     { path: '', redirectTo: 'create-goal', pathMatch: 'full' }
 

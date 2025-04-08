@@ -1,15 +1,33 @@
-<h2>Edit Meal</h2>
-<form (ngSubmit)="updateMeal()">
-  <label>Name:</label>
-  <input type="text" [(ngModel)]="meal.name" name="name" required />
-  
-  <label>Type:</label>
-  <input type="text" [(ngModel)]="meal.mealtype" name="type" required />
-  
-  <label>Calories:</label>
-  <input type="number" [(ngModel)]="meal.calories" name="calories" required />
-  
-  <!-- Add other fields as needed -->
-  <button type="submit">Update Meal</button>
-</form>
-<button [routerLink]="['/meal-list']">Back to List</button>
+<div class="edit-meal-container">
+  <h2>Edit Meal</h2>
+  <form (ngSubmit)="updateMeal()" class="edit-meal-form">
+    <!-- Name -->
+    <div class="form-group">
+      <label for="name"><i class="fas fa-utensils"></i> Name:</label>
+      <input id="name" type="text" [(ngModel)]="meal.name" name="name" required class="form-control" placeholder="Enter meal name" />
+    </div>
+
+    <!-- Type -->
+    <div class="form-group">
+      <label for="mealtype"><i class="fas fa-utensil-spoon"></i> Type:</label>
+      <input id="mealtype" type="text" [(ngModel)]="meal.mealtype" name="mealtype" required class="form-control" placeholder="Breakfast, Lunch, etc." />
+    </div>
+
+    <!-- Calories -->
+    <div class="form-group">
+      <label for="calories"><i class="fas fa-fire"></i> Calories:</label>
+      <input id="calories" type="number" [(ngModel)]="meal.calories" name="calories" required class="form-control" placeholder="e.g., 250" />
+    </div>
+
+    <!-- Additional Fields Placeholder -->
+    <div class="additional-fields">
+      <!-- Add any other fields such as Protein, Carbs, Fats, etc. -->
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Update Meal</button>
+  </form>
+
+  <!-- Back Button -->
+  <button [routerLink]="['/meal-list']" class="btn-back"><i class="fas fa-arrow-left"></i> Back to List</button>
+</div>

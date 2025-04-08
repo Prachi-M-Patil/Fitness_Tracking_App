@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MealListComponent } from './meal-list.component';
+import { GenericTableComponent } from './generic-table.component';
 
-describe('MealListComponent', () => {
-  let component: MealListComponent;
-  let fixture: ComponentFixture<MealListComponent>;
+describe('GenericTableComponent', () => {
+  let component: GenericTableComponent;
+  let fixture: ComponentFixture<GenericTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MealListComponent]
+      declarations: [GenericTableComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MealListComponent);
+    fixture = TestBed.createComponent(GenericTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

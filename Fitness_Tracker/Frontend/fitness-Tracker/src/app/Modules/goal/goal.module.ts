@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { GoalRoutingModule } from './goal-routing.module';
 import { GoalService } from '../../services/goal.service';
 import { AuthService } from '../../services/auth.service';
+import { SharedModule } from '../../shared/shared.module';
 
 
 
@@ -19,7 +20,8 @@ import { AuthService } from '../../services/auth.service';
     CommonModule,
     FormsModule,
     HttpClientModule,
-    GoalRoutingModule
+    GoalRoutingModule,
+    SharedModule
 
   ],
   exports:[

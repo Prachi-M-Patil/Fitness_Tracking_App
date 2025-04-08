@@ -17,7 +17,7 @@ export class Meal{
     calories: number;
 
     @Column()
-    Protein : number;
+    protein : number;
 
     @Column()
     carbs: number;
@@ -35,11 +35,21 @@ export class Meal{
     @Column({ default: true })
     available: boolean;
 
-    @OneToMany(()=> Nutrition, nutrition => nutrition.meals)
-    nutrition: Nutrition;
+    @Column({ default: 0 ,nullable: false})
+    likesCount: number;
 
-    @ManyToOne(() => User, users => users.meals, {onDelete: "CASCADE"})
-    // @JoinColumn()// Creates the join table for the relationship
-    users: User;
+    // @OneToMany(()=> Nutrition, nutrition => nutrition.meals)
+    // nutrition: Nutrition[];
+
+    @ManyToMany(() => Nutrition, { cascade: true })
+    @JoinTable()
+    nutrition: Nutrition[];
+
+    @ManyToOne(() => User, (user) => user.meals)
+    users: User[]; // Ensure this is an array of users
+
+    // @ManyToOne(() => User, users => users.meals, {onDelete: "CASCADE"})
+    // // @JoinColumn()// Creates the join table for the relationship
+    // users: User[];
     
 }
